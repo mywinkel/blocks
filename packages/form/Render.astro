@@ -1,0 +1,15 @@
+---
+import View from './View.svelte';
+import {digest} from '@mywinkel/block-sdk/public/runtime/crypto';
+import {resolvePart,appearanceLayers} from '@mywinkel/block-sdk/appearance';
+import {definition} from './definition';
+import type {BlockViewProps} from '@mywinkel/block-sdk/contract';
+type Props=BlockViewProps;
+const {block,data,appearance}=Astro.props;
+const form=data.documents.find(item=>item.kind==='form'&&item.id===('formId' in block.props?block.props.formId:undefined));
+const publicForm=form?.kind==='form'?{id:form.id,name:form.name,fields:form.fields,submitLabel:form.submitLabel,successMessage:form.successMessage,formLayout:form.formLayout,floatingLabels:form.floatingLabels}:null;
+const revision=form?await digest(JSON.stringify(form)):'';
+---
+{block.props.heading&&<h2 class={resolvePart(definition.parts['block.heading'],'block.heading',appearanceLayers(appearance))}>{block.props.heading}</h2>}
+{publicForm&&(data.preview?<View form={publicForm} {revision} {appearance} preview/>:<View form={publicForm} {revision} {appearance} client:load/>)}
+{!publicForm&&data.preview&&<p>Choose a form in block settings.</p>}

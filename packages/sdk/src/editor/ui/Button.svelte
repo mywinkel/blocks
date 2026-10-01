@@ -1,0 +1,2 @@
+<script lang="ts">import type {HTMLButtonAttributes} from "svelte/elements";import type {Snippet} from "svelte";let {class:classes='',children,size='default',variant='default',...rest}:HTMLButtonAttributes & {children?:Snippet;size?:'default'|'sm'|'icon';variant?:'default'|'outline'|'ghost'}=$props();</script>
+<button type='button' class={`rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground disabled:opacity-50 ${classes}`} {...rest}>{@render children?.()}</button>

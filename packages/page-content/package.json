@@ -1,0 +1,28 @@
+{
+  "name": "@mywinkel/block-page-content",
+  "version": "0.1.0",
+  "type": "module",
+  "license": "MIT",
+  "exports": {
+    ".": "./definition.ts",
+    "./definition": "./definition.ts",
+    "./View.svelte": "./View.svelte",
+    "./Settings.svelte": "./Settings.svelte",
+    "./Render.astro": "./Render.astro",
+    "./parts": "./parts.ts",
+    "./*": "./*"
+  },
+  "dependencies": {
+    "zod": "4.6.5"
+  },
+  "peerDependencies": {
+    "svelte": "^5.56.1",
+    "astro": "^7.3.1",
+    "@mywinkel/block-sdk": "0.1.0"
+  },
+  "peerDependenciesMeta": {
+    "@mywinkel/block-sdk": {
+      "optional": true
+    }
+  }
+}

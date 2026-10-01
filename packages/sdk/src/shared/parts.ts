@@ -1,0 +1,76 @@
+/**
+ * The default Tailwind classes for shared transaction primitives.
+ *
+ * Keep this module free of Svelte imports so the block registry and the
+ * server-side contract can expose the available appearance parts without
+ * pulling the interactive views into their bundles.
+ */
+export const namedPartDefaults = {
+	'loading.error':
+		'grid gap-3 rounded-xl border border-destructive/40 bg-destructive/5 p-4 text-sm text-destructive',
+	'loading.reload':
+		'inline-flex min-h-11 items-center justify-center rounded-lg border border-destructive/40 bg-background px-4 py-2 font-semibold text-destructive underline-offset-4 transition-opacity hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-60',
+	'loading.status': 'text-sm text-muted-foreground',
+	'checkout.root': 'grid gap-6 text-foreground',
+	'checkout.form': 'grid gap-6 text-foreground',
+	'checkout.fieldset': 'grid gap-6 disabled:opacity-70',
+	'checkout.details': 'grid gap-4 rounded-xl border border-border p-4 sm:p-6',
+	'checkout.legend': 'px-1 text-sm font-semibold text-foreground',
+	'checkout.field': 'grid gap-2 text-sm font-medium text-foreground',
+	'checkout.field-stack': 'grid gap-2',
+	'checkout.field-group': 'grid gap-4 sm:grid-cols-2',
+	'checkout.control':
+		'min-h-11 w-full rounded-lg border border-border bg-background px-3 py-2 text-base text-foreground shadow-xs outline-none transition focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30 disabled:cursor-not-allowed disabled:opacity-60',
+	'checkout.option': 'bg-background text-foreground',
+	'checkout.hint': 'text-xs leading-relaxed text-muted-foreground',
+	'checkout.summary': 'grid gap-2 text-sm text-foreground',
+	'checkout.hold': 'text-sm leading-relaxed text-muted-foreground',
+	'checkout.consent': 'flex items-start gap-3 text-sm leading-relaxed text-foreground',
+	'checkout.consent-copy': 'leading-relaxed',
+	'checkout.consent-input':
+		'mt-1 size-4 shrink-0 accent-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
+	'checkout.terms-link':
+		'underline underline-offset-4 hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
+	'checkout.error':
+		'grid gap-2 rounded-xl border border-destructive/40 bg-destructive/5 p-4 text-sm text-destructive',
+	'checkout.error-copy': 'leading-relaxed',
+	'checkout.error-retry': 'leading-relaxed',
+	'checkout.status': 'text-sm text-muted-foreground',
+	'checkout.submit':
+		'inline-flex min-h-11 items-center justify-center rounded-lg bg-primary px-5 py-2 font-semibold text-primary-foreground shadow-sm outline-none transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-60',
+	'checkout.secondary':
+		'inline-flex min-h-11 items-center justify-center rounded-lg border border-border bg-background px-4 py-2 font-semibold text-foreground outline-none transition-colors hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-60',
+	'checkout.receipt': 'grid gap-4 text-foreground',
+	'checkout.receipt-heading': 'text-2xl font-semibold tracking-tight text-foreground',
+	'checkout.receipt-reference': 'text-sm text-muted-foreground',
+	'checkout.receipt-total': 'text-lg font-semibold tabular-nums text-foreground',
+	'checkout.receipt-view':
+		'inline-flex min-h-11 w-fit items-center justify-center rounded-lg border border-border bg-background px-4 py-2 font-semibold text-foreground outline-none transition-colors hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
+	'payment-hold.expired':
+		'rounded-xl border border-destructive/40 bg-destructive/5 p-4 text-sm leading-relaxed text-destructive',
+	'payment-hold.pending': 'text-sm leading-relaxed text-muted-foreground',
+	'payment-hold.time': 'tabular-nums text-foreground',
+	'item-select.label': 'grid gap-2 text-sm font-medium text-foreground',
+	'item-select.control':
+		'min-h-11 w-full rounded-lg border border-border bg-background px-3 py-2 text-base text-foreground shadow-xs outline-none transition focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30 disabled:cursor-not-allowed disabled:opacity-60',
+	'item-select.option': 'bg-background text-foreground',
+	'delivery.root': 'grid gap-5 rounded-xl border border-border p-4 sm:p-6',
+	'delivery.legend': 'px-1 text-sm font-semibold text-foreground',
+	'delivery.note': 'text-sm leading-relaxed text-muted-foreground',
+	'courier.root': 'grid gap-5 rounded-xl border border-border p-4 sm:p-6',
+	'courier.legend': 'px-1 text-sm font-semibold text-foreground',
+	'courier.field-group': 'grid gap-4 sm:grid-cols-2',
+	'courier.note': 'text-sm leading-relaxed text-muted-foreground',
+	'courier.button':
+		'inline-flex min-h-11 items-center justify-center rounded-lg border border-border bg-background px-4 py-2 font-semibold text-foreground outline-none transition-colors hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-60',
+	'courier.error':
+		'rounded-xl border border-destructive/40 bg-destructive/5 p-4 text-sm leading-relaxed text-destructive',
+	'courier.notice':
+		'rounded-xl border border-border bg-muted/40 p-4 text-sm leading-relaxed text-foreground',
+	'courier.option':
+		'min-h-11 w-full rounded-lg border border-border bg-background px-3 py-2 text-base text-foreground shadow-xs outline-none transition focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30 disabled:cursor-not-allowed disabled:opacity-60',
+	'courier.description': 'text-sm leading-relaxed text-muted-foreground',
+	'courier.total': 'text-base font-semibold tabular-nums text-foreground'
+} as const;
+
+export type SharedPartName = keyof typeof namedPartDefaults;

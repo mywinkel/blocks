@@ -1,0 +1,341 @@
+{
+  "format": 1,
+  "name": "@mywinkel/block-catalogue",
+  "version": "0.1.0",
+  "sdkVersion": "0.1",
+  "blocks": [
+    {
+      "id": "catalogue",
+      "label": "Catalogue",
+      "description": "Catalogue block",
+      "configuration": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "heading": {
+            "default": "",
+            "type": "string",
+            "maxLength": 500
+          },
+          "cards": {
+            "default": [],
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100,
+                  "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]*$"
+                },
+                "title": {
+                  "type": "string",
+                  "maxLength": 500
+                },
+                "text": {
+                  "default": "",
+                  "type": "string",
+                  "maxLength": 5000
+                },
+                "image": {
+                  "default": "",
+                  "type": "string",
+                  "maxLength": 2000
+                },
+                "mediaId": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100,
+                  "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]*$"
+                },
+                "alt": {
+                  "default": "",
+                  "type": "string",
+                  "maxLength": 500
+                },
+                "href": {
+                  "default": "",
+                  "type": "string",
+                  "maxLength": 2000
+                }
+              },
+              "required": [
+                "id",
+                "title",
+                "text",
+                "image",
+                "alt",
+                "href"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "columns": {
+            "default": 3,
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4
+          },
+          "layout": {
+            "default": "grid",
+            "type": "string",
+            "enum": [
+              "grid",
+              "list"
+            ]
+          },
+          "showImages": {
+            "default": true,
+            "type": "boolean"
+          },
+          "showDescriptions": {
+            "default": true,
+            "type": "boolean"
+          },
+          "source": {
+            "default": "products",
+            "type": "string",
+            "enum": [
+              "products",
+              "services",
+              "menus",
+              "classes",
+              "rental-offer",
+              "membership-offer"
+            ]
+          },
+          "href": {
+            "default": "",
+            "type": "string",
+            "maxLength": 2000
+          },
+          "search": {
+            "default": "",
+            "type": "string",
+            "maxLength": 200
+          },
+          "sort": {
+            "default": "name",
+            "type": "string",
+            "enum": [
+              "name",
+              "name-desc",
+              "price",
+              "price-desc"
+            ]
+          },
+          "limit": {
+            "default": 12,
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "contentTypeId": {
+            "default": "",
+            "type": "string",
+            "maxLength": 100
+          },
+          "contentId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100,
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]*$"
+          },
+          "fields": {
+            "default": {
+              "title": "name",
+              "text": "description",
+              "image": "image",
+              "href": "url"
+            },
+            "type": "object",
+            "properties": {
+              "title": {
+                "default": "name",
+                "type": "string",
+                "maxLength": 100
+              },
+              "text": {
+                "default": "description",
+                "type": "string",
+                "maxLength": 100
+              },
+              "image": {
+                "default": "image",
+                "type": "string",
+                "maxLength": 100
+              },
+              "href": {
+                "default": "url",
+                "type": "string",
+                "maxLength": 100
+              }
+            },
+            "required": [
+              "title",
+              "text",
+              "image",
+              "href"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "heading",
+          "cards",
+          "columns",
+          "layout",
+          "showImages",
+          "showDescriptions",
+          "source",
+          "href",
+          "search",
+          "sort",
+          "limit",
+          "contentTypeId",
+          "fields"
+        ],
+        "additionalProperties": false
+      },
+      "fields": [
+        {
+          "key": "heading",
+          "label": "Heading",
+          "type": "text"
+        },
+        {
+          "key": "layout",
+          "label": "Layout",
+          "type": "select",
+          "options": [
+            {
+              "value": "grid",
+              "label": "Grid"
+            },
+            {
+              "value": "list",
+              "label": "List"
+            }
+          ]
+        },
+        {
+          "key": "columns",
+          "label": "Columns",
+          "type": "number",
+          "min": 1,
+          "max": 4
+        },
+        {
+          "key": "showImages",
+          "label": "Show images",
+          "type": "checkbox"
+        },
+        {
+          "key": "showDescriptions",
+          "label": "Show descriptions",
+          "type": "checkbox"
+        },
+        {
+          "key": "source",
+          "label": "Public data source",
+          "type": "select",
+          "options": [
+            {
+              "value": "products",
+              "label": "Products"
+            },
+            {
+              "value": "services",
+              "label": "Services"
+            },
+            {
+              "value": "menus",
+              "label": "Menu items"
+            },
+            {
+              "value": "classes",
+              "label": "Classes"
+            },
+            {
+              "value": "rental-offer",
+              "label": "Rental offers"
+            },
+            {
+              "value": "membership-offer",
+              "label": "Membership offers"
+            }
+          ]
+        },
+        {
+          "key": "search",
+          "label": "Filter by text",
+          "type": "text"
+        },
+        {
+          "key": "sort",
+          "label": "Sort",
+          "type": "select",
+          "options": [
+            {
+              "value": "name",
+              "label": "Name A–Z"
+            },
+            {
+              "value": "name-desc",
+              "label": "Name Z–A"
+            },
+            {
+              "value": "price",
+              "label": "Price low to high"
+            },
+            {
+              "value": "price-desc",
+              "label": "Price high to low"
+            }
+          ]
+        },
+        {
+          "key": "limit",
+          "label": "Display limit",
+          "type": "number",
+          "min": 1,
+          "max": 100
+        },
+        {
+          "key": "href",
+          "label": "Item link",
+          "type": "url"
+        }
+      ],
+      "parts": {
+        "block.root": "min-w-0 wrap-anywhere data-[cms-block]:relative data-[cms-block]:outline-offset-8 data-[cms-block]:hover:outline data-[cms-block]:hover:outline-dashed data-[cms-block]:hover:outline-ring data-[cms-selected]:outline-2 data-[cms-selected]:outline-ring",
+        "block.heading": "mb-6 text-3xl font-medium",
+        "cards.heading": "mb-6 text-3xl font-medium text-balance",
+        "cards.item": "min-w-0",
+        "cards.image": "h-auto max-w-full object-cover",
+        "cards.title": "my-3 text-lg font-medium",
+        "cards.link": "underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4",
+        "cards.description": "max-w-prose leading-relaxed",
+        "cards.empty": "text-sm text-muted-foreground",
+        "catalogue.list": "grid list-none gap-8 p-0 sm:grid-cols-2 lg:grid-cols-3",
+        "catalogue.item": "min-w-0",
+        "catalogue.link": "block space-y-3 focus-visible:outline-2 focus-visible:outline-offset-4",
+        "catalogue.title": "text-lg font-medium",
+        "catalogue.description": "max-w-prose text-sm text-muted-foreground",
+        "cards.grid": "grid gap-8",
+        "price.value": "tabular-nums"
+      },
+      "interactive": false,
+      "children": false,
+      "viewMode": "block"
+    }
+  ],
+  "entries": {
+    "server": "dist/server.js",
+    "browser": "dist/browser.js",
+    "settings": "dist/settings.js"
+  },
+  "migrations": []
+}

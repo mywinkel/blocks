@@ -1,0 +1,11 @@
+---
+import View from './View.svelte';
+import {definition} from './definition';
+import {appearanceLayers,resolvePart} from '@mywinkel/block-sdk/appearance';
+import type {BlockViewProps} from '@mywinkel/block-sdk/contract';
+type Props=BlockViewProps;
+const {block,data,appearance}=Astro.props;
+const props={appearance,};
+---
+{block.props.heading&&<h2 class={resolvePart(definition.parts['block.heading'],'block.heading',appearanceLayers(appearance))}>{block.props.heading}</h2>}
+{data.preview?<div inert><View {...props}/></div>:<View {...props} client:load/>}

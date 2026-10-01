@@ -1,0 +1,11 @@
+{
+  "name": "@example/notes",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build": "bun build ./server.ts --target=browser --format=esm --outfile=dist/server.js"
+  },
+  "dependencies": {
+    "@mywinkel/block-sdk": "https://github.com/mywinkel/blocks/releases/download/v0.1.0/block-sdk-0.1.0.tgz"
+  }
+}

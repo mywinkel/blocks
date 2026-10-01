@@ -1,0 +1,170 @@
+{
+  "format": 1,
+  "name": "@mywinkel/block-gallery",
+  "version": "0.1.0",
+  "sdkVersion": "0.1",
+  "blocks": [
+    {
+      "id": "gallery",
+      "label": "Gallery",
+      "description": "Gallery block",
+      "configuration": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "heading": {
+            "default": "",
+            "type": "string",
+            "maxLength": 500
+          },
+          "cards": {
+            "default": [],
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100,
+                  "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]*$"
+                },
+                "title": {
+                  "type": "string",
+                  "maxLength": 500
+                },
+                "text": {
+                  "default": "",
+                  "type": "string",
+                  "maxLength": 5000
+                },
+                "image": {
+                  "default": "",
+                  "type": "string",
+                  "maxLength": 2000
+                },
+                "mediaId": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100,
+                  "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]*$"
+                },
+                "alt": {
+                  "default": "",
+                  "type": "string",
+                  "maxLength": 500
+                },
+                "href": {
+                  "default": "",
+                  "type": "string",
+                  "maxLength": 2000
+                }
+              },
+              "required": [
+                "id",
+                "title",
+                "text",
+                "image",
+                "alt",
+                "href"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "columns": {
+            "default": 3,
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4
+          },
+          "layout": {
+            "default": "grid",
+            "type": "string",
+            "enum": [
+              "grid",
+              "list"
+            ]
+          },
+          "showImages": {
+            "default": true,
+            "type": "boolean"
+          },
+          "showDescriptions": {
+            "default": true,
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "heading",
+          "cards",
+          "columns",
+          "layout",
+          "showImages",
+          "showDescriptions"
+        ],
+        "additionalProperties": false
+      },
+      "fields": [
+        {
+          "key": "heading",
+          "label": "Heading",
+          "type": "text"
+        },
+        {
+          "key": "layout",
+          "label": "Layout",
+          "type": "select",
+          "options": [
+            {
+              "value": "grid",
+              "label": "Grid"
+            },
+            {
+              "value": "list",
+              "label": "List"
+            }
+          ]
+        },
+        {
+          "key": "columns",
+          "label": "Columns",
+          "type": "number",
+          "min": 1,
+          "max": 4
+        },
+        {
+          "key": "showImages",
+          "label": "Show images",
+          "type": "checkbox"
+        },
+        {
+          "key": "showDescriptions",
+          "label": "Show descriptions",
+          "type": "checkbox"
+        }
+      ],
+      "parts": {
+        "block.root": "min-w-0 wrap-anywhere data-[cms-block]:relative data-[cms-block]:outline-offset-8 data-[cms-block]:hover:outline data-[cms-block]:hover:outline-dashed data-[cms-block]:hover:outline-ring data-[cms-selected]:outline-2 data-[cms-selected]:outline-ring",
+        "block.heading": "mb-6 text-3xl font-medium",
+        "cards.heading": "mb-6 text-3xl font-medium text-balance",
+        "cards.item": "min-w-0",
+        "cards.image": "h-auto max-w-full object-cover",
+        "cards.title": "my-3 text-lg font-medium",
+        "cards.link": "underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4",
+        "cards.description": "max-w-prose leading-relaxed",
+        "cards.empty": "text-sm text-muted-foreground",
+        "cards.grid": "grid gap-8"
+      },
+      "interactive": false,
+      "children": false,
+      "viewMode": "block"
+    }
+  ],
+  "entries": {
+    "server": "dist/server.js",
+    "browser": "dist/browser.js",
+    "settings": "dist/settings.js"
+  },
+  "migrations": []
+}

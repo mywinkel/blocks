@@ -1,0 +1,51 @@
+{
+  "format": 1,
+  "name": "@example/notes",
+  "version": "0.1.0",
+  "sdkVersion": "0.1",
+  "blocks": [
+    {
+      "id": "example/notes",
+      "label": "Package notes",
+      "description": "Independent block and backend example.",
+      "configuration": {
+        "type": "object",
+        "properties": {
+          "heading": {
+            "type": "string",
+            "default": "Package notes",
+            "maxLength": 100
+          }
+        },
+        "additionalProperties": false
+      },
+      "fields": [
+        {
+          "key": "heading",
+          "label": "Heading",
+          "type": "text"
+        }
+      ],
+      "parts": {
+        "block.root": "rounded-lg border p-6",
+        "block.heading": "text-xl font-medium"
+      },
+      "interactive": false,
+      "children": false,
+      "viewMode": "block"
+    }
+  ],
+  "backendAccess": "owner",
+  "entries": {
+    "server": "dist/server.js",
+    "settings": "settings.js"
+  },
+  "migrations": [
+    {
+      "id": "0001_notes",
+      "checksum": "56c58fec0d869e3979129a47ac8f4a44ec0ec272476a46d53b395d1b5d195245",
+      "sql": "CREATE TABLE pkg_c3814fbdce328585548b86a7_notes (id INTEGER PRIMARY KEY, body TEXT NOT NULL)",
+      "kind": "compatible"
+    }
+  ]
+}

@@ -1,0 +1,143 @@
+{
+  "format": 1,
+  "name": "@mywinkel/block-menu",
+  "version": "0.1.0",
+  "sdkVersion": "0.1",
+  "blocks": [
+    {
+      "id": "menu",
+      "label": "Menu",
+      "description": "Menu block",
+      "configuration": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "heading": {
+            "default": "",
+            "type": "string",
+            "maxLength": 500
+          },
+          "menuItems": {
+            "default": [],
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/__schema0"
+            }
+          },
+          "orientation": {
+            "default": "horizontal",
+            "type": "string",
+            "enum": [
+              "horizontal",
+              "vertical"
+            ]
+          }
+        },
+        "required": [
+          "heading",
+          "menuItems",
+          "orientation"
+        ],
+        "additionalProperties": false,
+        "$defs": {
+          "__schema0": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200,
+                "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]*$"
+              },
+              "pageId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200,
+                "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]*$"
+              },
+              "aliasId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200,
+                "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]*$"
+              },
+              "href": {
+                "default": "",
+                "type": "string",
+                "maxLength": 2000
+              },
+              "label": {
+                "default": "",
+                "type": "string",
+                "maxLength": 300
+              },
+              "children": {
+                "default": [],
+                "maxItems": 100,
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/__schema0"
+                }
+              }
+            },
+            "required": [
+              "id",
+              "href",
+              "label",
+              "children"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "fields": [
+        {
+          "key": "heading",
+          "label": "Heading",
+          "type": "text"
+        },
+        {
+          "key": "orientation",
+          "label": "Orientation",
+          "type": "select",
+          "options": [
+            {
+              "value": "horizontal",
+              "label": "Horizontal"
+            },
+            {
+              "value": "vertical",
+              "label": "Vertical"
+            }
+          ]
+        }
+      ],
+      "parts": {
+        "block.root": "min-w-0 wrap-anywhere data-[cms-block]:relative data-[cms-block]:outline-offset-8 data-[cms-block]:hover:outline data-[cms-block]:hover:outline-dashed data-[cms-block]:hover:outline-ring data-[cms-selected]:outline-2 data-[cms-selected]:outline-ring",
+        "block.heading": "mb-6 text-3xl font-medium",
+        "menu.root": "min-w-0",
+        "menu.summary": "w-fit cursor-pointer list-inside rounded-md border border-border p-3 sm:hidden",
+        "menu.navigation": "",
+        "menu.empty": "text-sm text-muted-foreground",
+        "menu.item": "list-none",
+        "menu.itemRow": "relative block sm:flex sm:items-center sm:gap-1",
+        "menu.link": "block rounded-md px-3 py-2.5 pr-10 no-underline hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:pr-3",
+        "menu.disclosure": "static",
+        "menu.toggle": "absolute top-0 right-0 cursor-pointer list-none p-2.5 focus-visible:outline-2 focus-visible:outline-ring sm:static [&::-webkit-details-marker]:hidden",
+        "menu.icon": "size-4",
+        "menu.submenu": "static ml-3 border-l border-border bg-background p-1.5 text-foreground sm:absolute sm:top-full sm:left-0 sm:z-10 sm:m-0 sm:min-w-48 sm:rounded-md sm:border",
+        "menu.list": "m-0 flex list-none flex-col flex-wrap gap-1 p-0 pt-3 sm:pt-0"
+      },
+      "interactive": true,
+      "children": false,
+      "viewMode": "menu"
+    }
+  ],
+  "entries": {
+    "server": "dist/server.js",
+    "browser": "dist/browser.js",
+    "settings": "dist/settings.js"
+  },
+  "migrations": []
+}

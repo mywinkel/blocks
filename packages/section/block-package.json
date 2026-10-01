@@ -1,0 +1,90 @@
+{
+  "format": 1,
+  "name": "@mywinkel/block-section",
+  "version": "0.1.0",
+  "sdkVersion": "0.1",
+  "blocks": [
+    {
+      "id": "section",
+      "label": "Section",
+      "description": "Section block",
+      "configuration": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "heading": {
+            "default": "",
+            "type": "string",
+            "maxLength": 500
+          },
+          "role": {
+            "default": "section",
+            "type": "string",
+            "enum": [
+              "header",
+              "footer",
+              "section"
+            ]
+          },
+          "showBranding": {
+            "default": false,
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "heading",
+          "role",
+          "showBranding"
+        ],
+        "additionalProperties": false
+      },
+      "fields": [
+        {
+          "key": "heading",
+          "label": "Heading",
+          "type": "text"
+        },
+        {
+          "key": "role",
+          "label": "Section role",
+          "type": "select",
+          "options": [
+            {
+              "value": "section",
+              "label": "Section"
+            },
+            {
+              "value": "header",
+              "label": "Header"
+            },
+            {
+              "value": "footer",
+              "label": "Footer"
+            }
+          ]
+        },
+        {
+          "key": "showBranding",
+          "label": "Show store name and logo",
+          "type": "checkbox"
+        }
+      ],
+      "parts": {
+        "block.root": "min-w-0 wrap-anywhere data-[cms-block]:relative data-[cms-block]:outline-offset-8 data-[cms-block]:hover:outline data-[cms-block]:hover:outline-dashed data-[cms-block]:hover:outline-ring data-[cms-selected]:outline-2 data-[cms-selected]:outline-ring",
+        "block.heading": "mb-6 text-3xl font-medium",
+        "section.root": "grid gap-8",
+        "section.brand": "flex items-center gap-3 text-lg font-bold no-underline focus-visible:outline-2 focus-visible:outline-offset-4",
+        "section.logo": "h-10 w-auto max-w-40"
+      },
+      "interactive": false,
+      "children": true,
+      "viewMode": "block"
+    }
+  ],
+  "entries": {
+    "server": "dist/server.js",
+    "browser": "dist/browser.js",
+    "settings": "dist/settings.js"
+  },
+  "migrations": []
+}

@@ -1,0 +1,13 @@
+---
+import View from './View.svelte';
+import {resolveMenuItems} from '@mywinkel/block-sdk/public/website/menu';
+import type {BlockViewProps} from '@mywinkel/block-sdk/contract';
+type Props=BlockViewProps;
+const {block,data,appearance}=Astro.props;
+const settings=block.type==='menu'?block.props:null;
+let items:ReturnType<typeof resolveMenuItems>=[];
+try{items=settings?resolveMenuItems(settings.menuItems,data.documents):[];}catch(error){if(!data.preview)throw error;}
+// Hydrate only public resolved links, never the document/form configuration graph.
+const props={items,heading:settings?.heading,orientation:settings?.orientation,preview:!!data.preview,appearance};
+---
+{data.preview?<View {...props}/>:<View {...props} client:load/>}

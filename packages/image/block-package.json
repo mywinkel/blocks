@@ -1,0 +1,108 @@
+{
+  "format": 1,
+  "name": "@mywinkel/block-image",
+  "version": "0.1.0",
+  "sdkVersion": "0.1",
+  "blocks": [
+    {
+      "id": "image",
+      "label": "Image",
+      "description": "Image block",
+      "configuration": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "heading": {
+            "default": "",
+            "type": "string",
+            "maxLength": 500
+          },
+          "src": {
+            "default": "",
+            "type": "string",
+            "maxLength": 2000
+          },
+          "mediaId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100,
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]*$"
+          },
+          "alt": {
+            "default": "",
+            "type": "string",
+            "maxLength": 500
+          },
+          "caption": {
+            "default": "",
+            "type": "string",
+            "maxLength": 1000
+          },
+          "href": {
+            "default": "",
+            "type": "string",
+            "maxLength": 2000
+          },
+          "showCaption": {
+            "default": true,
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "heading",
+          "src",
+          "alt",
+          "caption",
+          "href",
+          "showCaption"
+        ],
+        "additionalProperties": false
+      },
+      "fields": [
+        {
+          "key": "heading",
+          "label": "Heading",
+          "type": "text"
+        },
+        {
+          "key": "alt",
+          "label": "Alternative text",
+          "type": "text"
+        },
+        {
+          "key": "caption",
+          "label": "Caption",
+          "type": "text"
+        },
+        {
+          "key": "showCaption",
+          "label": "Show caption",
+          "type": "checkbox"
+        },
+        {
+          "key": "href",
+          "label": "Image link",
+          "type": "url"
+        }
+      ],
+      "parts": {
+        "block.root": "min-w-0 wrap-anywhere data-[cms-block]:relative data-[cms-block]:outline-offset-8 data-[cms-block]:hover:outline data-[cms-block]:hover:outline-dashed data-[cms-block]:hover:outline-ring data-[cms-selected]:outline-2 data-[cms-selected]:outline-ring",
+        "block.heading": "mb-6 text-3xl font-medium",
+        "image.heading": "mb-6 text-3xl font-medium",
+        "image.figure": "min-w-0",
+        "image.image": "h-auto max-w-full object-cover",
+        "image.link": "block focus-visible:outline-2 focus-visible:outline-offset-4",
+        "image.caption": "mt-3 text-sm text-muted-foreground"
+      },
+      "interactive": false,
+      "children": false,
+      "viewMode": "block"
+    }
+  ],
+  "entries": {
+    "server": "dist/server.js",
+    "browser": "dist/browser.js",
+    "settings": "dist/settings.js"
+  },
+  "migrations": []
+}

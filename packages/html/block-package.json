@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "name": "@mywinkel/block-html",
+  "version": "0.1.0",
+  "sdkVersion": "0.1",
+  "blocks": [
+    {
+      "id": "html",
+      "label": "Custom HTML",
+      "description": "Custom HTML block",
+      "configuration": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "heading": {
+            "default": "",
+            "type": "string",
+            "maxLength": 500
+          },
+          "html": {
+            "default": "",
+            "type": "string",
+            "maxLength": 50000
+          }
+        },
+        "required": [
+          "heading",
+          "html"
+        ],
+        "additionalProperties": false
+      },
+      "fields": [
+        {
+          "key": "heading",
+          "label": "Heading",
+          "type": "text"
+        },
+        {
+          "key": "html",
+          "label": "HTML markup",
+          "type": "textarea"
+        }
+      ],
+      "parts": {
+        "block.root": "min-w-0 wrap-anywhere data-[cms-block]:relative data-[cms-block]:outline-offset-8 data-[cms-block]:hover:outline data-[cms-block]:hover:outline-dashed data-[cms-block]:hover:outline-ring data-[cms-selected]:outline-2 data-[cms-selected]:outline-ring",
+        "block.heading": "mb-6 text-3xl font-medium",
+        "content.heading": "mb-6 text-3xl font-medium text-balance",
+        "content.body": "max-w-[75ch] wrap-anywhere leading-relaxed [&>*+*]:mt-4 [&_h1]:mt-6 [&_h1]:text-3xl [&_h2]:mt-6 [&_h2]:text-2xl [&_h3]:mt-6 [&_h3]:text-xl [&_h1]:text-balance [&_h2]:text-balance [&_h3]:text-balance [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6 [&_a]:underline [&_a]:underline-offset-4 [&_img]:h-auto [&_img]:max-w-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+      },
+      "interactive": false,
+      "children": false,
+      "viewMode": "block"
+    }
+  ],
+  "entries": {
+    "server": "dist/server.js",
+    "browser": "dist/browser.js",
+    "settings": "dist/settings.js"
+  },
+  "migrations": []
+}

@@ -1,0 +1,87 @@
+{
+  "format": 1,
+  "name": "@mywinkel/block-form",
+  "version": "0.1.0",
+  "sdkVersion": "0.1",
+  "blocks": [
+    {
+      "id": "form",
+      "label": "Form",
+      "description": "Form block",
+      "configuration": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "heading": {
+            "default": "",
+            "type": "string",
+            "maxLength": 500
+          },
+          "formId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100,
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]*$"
+          }
+        },
+        "required": [
+          "heading"
+        ],
+        "additionalProperties": false
+      },
+      "fields": [
+        {
+          "key": "heading",
+          "label": "Heading",
+          "type": "text"
+        }
+      ],
+      "parts": {
+        "block.root": "min-w-0 wrap-anywhere data-[cms-block]:relative data-[cms-block]:outline-offset-8 data-[cms-block]:hover:outline data-[cms-block]:hover:outline-dashed data-[cms-block]:hover:outline-ring data-[cms-selected]:outline-2 data-[cms-selected]:outline-ring",
+        "block.heading": "mb-6 text-3xl font-medium",
+        "form.root": "grid gap-6",
+        "form.success": "grid gap-3",
+        "form.successMessage": "leading-relaxed",
+        "form.optionLabel": "min-w-0",
+        "form.successHeading": "text-lg font-semibold tracking-tight",
+        "form.fieldset": "grid gap-6 disabled:cursor-not-allowed",
+        "form.legend": "mb-1 font-semibold tracking-tight",
+        "form.fields": "grid min-w-0 gap-4 sm:grid-cols-1",
+        "form.inlineFields": "sm:grid-cols-2 sm:items-start",
+        "form.inlineFullWidth": "sm:col-span-2",
+        "form.field": "grid min-w-0 gap-2 text-sm",
+        "form.choice": "grid min-w-0 gap-3 text-sm",
+        "form.options": "grid gap-2",
+        "form.option": "flex items-start gap-3 leading-6",
+        "form.choiceLabel": "flex items-start gap-3 leading-6",
+        "form.label": "font-medium",
+        "form.control": "w-full min-w-0 rounded-md border border-border bg-background px-3 py-2.5 font-[inherit] text-foreground caret-primary outline-none transition-[border-color,box-shadow] placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30 disabled:cursor-not-allowed disabled:opacity-60",
+        "form.textarea": "min-h-28 resize-y",
+        "form.fileControl": "w-full min-w-0 rounded-md border border-border bg-background px-3 py-2 font-[inherit] text-sm text-foreground file:mr-3 file:border-0 file:bg-transparent file:font-medium file:text-foreground focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30 disabled:cursor-not-allowed disabled:opacity-60",
+        "form.checkbox": "mt-1 size-4 shrink-0 accent-primary",
+        "form.radio": "mt-1 size-4 shrink-0 accent-primary",
+        "form.floatField": "relative grid min-w-0 gap-2 text-sm",
+        "form.floatLabel": "pointer-events-none absolute left-3 top-0 z-10 -translate-y-1/2 bg-background px-1 text-xs font-medium text-muted-foreground transition-[color,transform,font-size] peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:-translate-y-1/2 peer-focus:text-xs",
+        "form.floatControl": "peer pt-4",
+        "form.help": "text-xs leading-5 text-muted-foreground",
+        "form.fileHelp": "text-xs leading-5 text-muted-foreground",
+        "form.honeypot": "sr-only",
+        "form.consent": "flex items-start gap-3 text-sm leading-6",
+        "form.terms": "text-sm leading-6",
+        "form.submit": "inline-flex min-h-11 items-center justify-center rounded-md bg-primary px-4 py-2.5 font-semibold text-primary-foreground outline-none transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-ring/60 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-60",
+        "form.error": "grid gap-1 text-sm text-destructive",
+        "form.pending": "text-sm text-muted-foreground",
+        "form.buttonLink": "inline-flex min-h-11 items-center justify-center rounded-md border border-border px-4 py-2.5 font-semibold text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+      },
+      "interactive": true,
+      "children": false,
+      "viewMode": "form"
+    }
+  ],
+  "entries": {
+    "server": "dist/server.js",
+    "browser": "dist/browser.js",
+    "settings": "dist/settings.js"
+  },
+  "migrations": []
+}
