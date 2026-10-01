@@ -12,7 +12,7 @@ import { resolve, join } from "node:path";
 import { createHash } from "node:crypto";
 import { buildPackages, buildExample } from "./build";
 const root = resolve(import.meta.dirname, ".."),
-  version = "0.1.0",
+  version = JSON.parse(await readFile(resolve(root,'packages/sdk/package.json'),'utf8')).version,
   tag = "v" + version,
   base = "https://github.com/mywinkel/blocks/releases/download/" + tag;
 await buildPackages();
