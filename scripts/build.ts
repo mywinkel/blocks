@@ -124,6 +124,16 @@ export async function buildPackages() {
 }
 export async function buildExample() {
   const directory = resolve(root, "examples/notes");
+  const metadata = JSON.parse(
+    await readFile(resolve(directory, "block-package.json"), "utf8"),
+  );
+  metadata.version = JSON.parse(
+    await readFile(resolve(directory, "package.json"), "utf8"),
+  ).version;
+  await writeFile(
+    resolve(directory, "block-package.json"),
+    JSON.stringify(metadata, null, 2) + "\n",
+  );
   await mkdir(resolve(directory, "dist"), { recursive: true });
   await writeFile(
     resolve(directory, "dist/settings.js"),

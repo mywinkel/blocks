@@ -19,12 +19,12 @@
     },
     "packages/booking": {
       "name": "@mywinkel/block-booking",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "dependencies": {
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.2",
+        "@mywinkel/block-sdk": "0.1.4",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -34,12 +34,12 @@
     },
     "packages/cart": {
       "name": "@mywinkel/block-cart",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "dependencies": {
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.2",
+        "@mywinkel/block-sdk": "0.1.4",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -49,12 +49,12 @@
     },
     "packages/catalogue": {
       "name": "@mywinkel/block-catalogue",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "dependencies": {
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.2",
+        "@mywinkel/block-sdk": "0.1.4",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -64,12 +64,12 @@
     },
     "packages/classes": {
       "name": "@mywinkel/block-classes",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "dependencies": {
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.2",
+        "@mywinkel/block-sdk": "0.1.4",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -79,12 +79,12 @@
     },
     "packages/component": {
       "name": "@mywinkel/block-component",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "dependencies": {
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.2",
+        "@mywinkel/block-sdk": "0.1.4",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -94,12 +94,12 @@
     },
     "packages/content": {
       "name": "@mywinkel/block-content",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "dependencies": {
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.2",
+        "@mywinkel/block-sdk": "0.1.4",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -109,13 +109,13 @@
     },
     "packages/customer-account": {
       "name": "@mywinkel/block-customer-account",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "dependencies": {
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-quote-acceptance": "0.1.2",
-        "@mywinkel/block-sdk": "0.1.2",
+        "@mywinkel/block-quote-acceptance": "0.1.4",
+        "@mywinkel/block-sdk": "0.1.4",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -126,12 +126,12 @@
     },
     "packages/enquiry": {
       "name": "@mywinkel/block-enquiry",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "dependencies": {
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.2",
+        "@mywinkel/block-sdk": "0.1.4",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -141,13 +141,13 @@
     },
     "packages/form": {
       "name": "@mywinkel/block-form",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "dependencies": {
         "tailwind-merge": "3.7.0",
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.2",
+        "@mywinkel/block-sdk": "0.1.4",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -157,12 +157,12 @@
     },
     "packages/gallery": {
       "name": "@mywinkel/block-gallery",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "dependencies": {
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.2",
+        "@mywinkel/block-sdk": "0.1.4",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -172,12 +172,12 @@
     },
     "packages/grid": {
       "name": "@mywinkel/block-grid",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "dependencies": {
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.2",
+        "@mywinkel/block-sdk": "0.1.4",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -187,12 +187,12 @@
     },
     "packages/html": {
       "name": "@mywinkel/block-html",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "dependencies": {
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.2",
+        "@mywinkel/block-sdk": "0.1.4",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -202,12 +202,12 @@
     },
     "packages/image": {
       "name": "@mywinkel/block-image",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "dependencies": {
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.2",
+        "@mywinkel/block-sdk": "0.1.4",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -217,12 +217,12 @@
     },
     "packages/membership": {
       "name": "@mywinkel/block-membership",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "dependencies": {
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.2",
+        "@mywinkel/block-sdk": "0.1.4",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -232,13 +232,13 @@
     },
     "packages/menu": {
       "name": "@mywinkel/block-menu",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "dependencies": {
         "@lucide/svelte": "^1.48.0",
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.2",
+        "@mywinkel/block-sdk": "0.1.4",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -248,12 +248,12 @@
     },
     "packages/page-content": {
       "name": "@mywinkel/block-page-content",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "dependencies": {
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.2",
+        "@mywinkel/block-sdk": "0.1.4",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -263,12 +263,12 @@
     },
     "packages/preorder": {
       "name": "@mywinkel/block-preorder",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "dependencies": {
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.2",
+        "@mywinkel/block-sdk": "0.1.4",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -278,12 +278,12 @@
     },
     "packages/quote-acceptance": {
       "name": "@mywinkel/block-quote-acceptance",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "dependencies": {
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.2",
+        "@mywinkel/block-sdk": "0.1.4",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -293,12 +293,12 @@
     },
     "packages/rental": {
       "name": "@mywinkel/block-rental",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "dependencies": {
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.2",
+        "@mywinkel/block-sdk": "0.1.4",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -308,12 +308,12 @@
     },
     "packages/request-status": {
       "name": "@mywinkel/block-request-status",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "dependencies": {
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.2",
+        "@mywinkel/block-sdk": "0.1.4",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -323,12 +323,12 @@
     },
     "packages/rich-text": {
       "name": "@mywinkel/block-rich-text",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "dependencies": {
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.2",
+        "@mywinkel/block-sdk": "0.1.4",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -338,7 +338,7 @@
     },
     "packages/sdk": {
       "name": "@mywinkel/block-sdk",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "dependencies": {
         "sanitize-html": "2.17.7",
         "tailwind-merge": "3.7.0",
@@ -351,12 +351,12 @@
     },
     "packages/section": {
       "name": "@mywinkel/block-section",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "dependencies": {
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.2",
+        "@mywinkel/block-sdk": "0.1.4",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -366,12 +366,12 @@
     },
     "packages/view": {
       "name": "@mywinkel/block-view",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "dependencies": {
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.2",
+        "@mywinkel/block-sdk": "0.1.4",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },

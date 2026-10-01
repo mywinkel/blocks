@@ -11,8 +11,11 @@ import { tmpdir } from "node:os";
 import { resolve, join } from "node:path";
 import { createHash } from "node:crypto";
 import { buildPackages, buildExample } from "./build";
+import { packageManifestSchema } from "../packages/sdk/src/manifest";
 const root = resolve(import.meta.dirname, ".."),
-  version = JSON.parse(await readFile(resolve(root,'packages/sdk/package.json'),'utf8')).version,
+  version = JSON.parse(
+    await readFile(resolve(root, "packages/sdk/package.json"), "utf8"),
+  ).version,
   tag = "v" + version,
   base = "https://github.com/mywinkel/blocks/releases/download/" + tag;
 await buildPackages();
@@ -40,6 +43,22 @@ for (const directory of [
     });
     await cp(resolve(root, "LICENSE"), join(stage, "LICENSE"));
     const pkg = JSON.parse(await readFile(join(stage, "package.json"), "utf8"));
+    const metadata =
+      directory === "sdk"
+        ? undefined
+        : packageManifestSchema.parse(
+            JSON.parse(
+              await readFile(join(stage, "block-package.json"), "utf8"),
+            ),
+          );
+    if (
+      pkg.version !== version ||
+      (metadata &&
+        (metadata.name !== pkg.name || metadata.version !== pkg.version))
+    )
+      throw Error("release_package_identity_mismatch");
+    for (const entry of Object.values(metadata?.entries ?? {}))
+      await readFile(join(stage, entry));
     delete pkg.peerDependenciesMeta;
     for (const name of Object.keys(pkg.peerDependencies ?? {}))
       if (name.startsWith("@mywinkel/")) {

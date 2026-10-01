@@ -21,6 +21,11 @@ describe("independent system package contracts", () => {
         ),
       );
       expect(manifest.name).toBe("@mywinkel/block-" + name);
+      expect(manifest.version).toBe(
+        JSON.parse(
+          await readFile(resolve("packages", name, "package.json"), "utf8"),
+        ).version,
+      );
       expect(manifest.blocks[0].id).toBe(name);
       expect(definition.schema.safeParse({}).success).toBe(true);
       expect(manifest.blocks[0].parts).toEqual(definition.parts);
@@ -37,4 +42,8 @@ it("validates the standalone SDK example before releasing its catalogue entry", 
     await readFile(resolve("examples/notes/block-package.json"), "utf8"),
   );
   expect(packageManifestSchema.parse(manifest).name).toBe("@example/notes");
+  expect(manifest.version).toBe(
+    JSON.parse(await readFile(resolve("examples/notes/package.json"), "utf8"))
+      .version,
+  );
 });
