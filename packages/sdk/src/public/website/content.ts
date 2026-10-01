@@ -60,4 +60,3 @@ export const escapeHtml = (value: string) =>
 		(character) =>
 			({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]!
 	);
-
