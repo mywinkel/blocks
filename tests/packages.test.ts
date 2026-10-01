@@ -31,3 +31,10 @@ describe("independent system package contracts", () => {
     }
   });
 });
+
+it("validates the standalone SDK example before releasing its catalogue entry", async () => {
+  const manifest = JSON.parse(
+    await readFile(resolve("examples/notes/block-package.json"), "utf8"),
+  );
+  expect(packageManifestSchema.parse(manifest).name).toBe("@example/notes");
+});

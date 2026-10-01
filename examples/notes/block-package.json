@@ -1,7 +1,7 @@
 {
   "format": 1,
   "name": "@example/notes",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "sdkVersion": "0.1",
   "blocks": [
     {
@@ -38,7 +38,7 @@
   "backendAccess": "owner",
   "entries": {
     "server": "dist/server.js",
-    "settings": "settings.js"
+    "settings": "dist/settings.js"
   },
   "migrations": [
     {

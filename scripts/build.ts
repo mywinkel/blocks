@@ -41,7 +41,9 @@ export async function buildPackages() {
     const manifest = {
       format: 1,
       name: "@mywinkel/block-" + name,
-      version: JSON.parse(await readFile(resolve(root,'packages/sdk/package.json'),'utf8')).version,
+      version: JSON.parse(
+        await readFile(resolve(root, "packages/sdk/package.json"), "utf8"),
+      ).version,
       sdkVersion: "0.1",
       blocks: [
         {
@@ -123,6 +125,10 @@ export async function buildPackages() {
 export async function buildExample() {
   const directory = resolve(root, "examples/notes");
   await mkdir(resolve(directory, "dist"), { recursive: true });
+  await writeFile(
+    resolve(directory, "dist/settings.js"),
+    await readFile(resolve(directory, "settings.js")),
+  );
   const result = await build({
     entryPoints: [resolve(directory, "server.ts")],
     alias: {
