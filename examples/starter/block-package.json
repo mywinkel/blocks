@@ -1,0 +1,62 @@
+{
+  "format": 1,
+  "name": "@example/starter",
+  "version": "0.1.4",
+  "sdkVersion": "0.1",
+  "blocks": [
+    {
+      "id": "example/starter-card",
+      "label": "Starter card",
+      "description": "A small editable card for learning the block package format.",
+      "configuration": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "heading": {
+            "default": "Hello from a block",
+            "type": "string",
+            "maxLength": 100
+          },
+          "body": {
+            "default": "Change these values in the block settings.",
+            "type": "string",
+            "maxLength": 500
+          }
+        },
+        "required": [
+          "heading",
+          "body"
+        ],
+        "additionalProperties": false
+      },
+      "fields": [
+        {
+          "key": "heading",
+          "label": "Heading",
+          "type": "text"
+        },
+        {
+          "key": "body",
+          "label": "Body",
+          "type": "textarea"
+        }
+      ],
+      "parts": {
+        "block.root": "min-w-0 wrap-anywhere data-[cms-block]:relative data-[cms-block]:outline-offset-8 data-[cms-block]:hover:outline data-[cms-block]:hover:outline-dashed data-[cms-block]:hover:outline-ring data-[cms-selected]:outline-2 data-[cms-selected]:outline-ring",
+        "block.heading": "mb-6 text-3xl font-medium",
+        "starter.root": "rounded-xl border border-slate-200 bg-white p-6 shadow-sm",
+        "starter.heading": "text-xl font-semibold text-slate-950",
+        "starter.body": "mt-2 leading-7 text-slate-700"
+      },
+      "interactive": false,
+      "children": false,
+      "viewMode": "block"
+    }
+  ],
+  "entries": {
+    "server": "dist/server.js",
+    "browser": "dist/browser.js",
+    "settings": "dist/settings.js"
+  },
+  "migrations": []
+}

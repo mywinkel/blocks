@@ -1,6 +1,11 @@
 node_modules/
 release/
+.astro/
 .svelte-kit/
+docs/.astro/
+docs/dist/
 packages/*/dist/
 
 examples/*/dist/
+examples/*/bun.lock
+examples/*/bun.lockb

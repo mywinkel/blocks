@@ -10,9 +10,14 @@
     "release": "bun scripts/release.ts",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "build": "bun scripts/build.ts",
-    "check:browser": "bun scripts/test-settings.ts"
+    "check:browser": "bun scripts/test-settings.ts",
+    "docs:dev": "astro dev --root docs",
+    "docs:build": "astro build --root docs",
+    "docs:preview": "astro preview --root docs"
   },
   "devDependencies": {
+    "@astrojs/starlight": "0.42.4",
+    "@mywinkel/block-sdk": "workspace:*",
     "@playwright/test": "1.60.0",
     "@types/node": "22.15.3",
     "@types/sanitize-html": "2.16.1",

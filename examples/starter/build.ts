@@ -1,27 +1,51 @@
-import { build, transform } from "esbuild";
+import { build as bundle, transform } from "esbuild";
 import { compile, compileModule } from "svelte/compiler";
-import { readFile, writeFile, mkdir, readdir } from "node:fs/promises";
-import { resolve, dirname } from "node:path";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { z } from "zod";
-const root = resolve(import.meta.dirname, "..");
-const checkout = new Set([
-  "booking",
-  "cart",
-  "classes",
-  "membership",
-  "preorder",
-  "rental",
-]);
-const account = new Set([
-  "customer-account",
-  "request-status",
-  "quote-acceptance",
-]);
-async function buildSvelteEntries(directory: string) {
-  const dist = resolve(directory, "dist");
+import { definition } from "./definition";
+
+const root = fileURLToPath(new URL(".", import.meta.url));
+
+export async function build() {
+  const pkg = JSON.parse(await readFile(resolve(root, "package.json"), "utf8"));
+  const manifest = {
+    format: 1,
+    name: pkg.name,
+    version: pkg.version,
+    sdkVersion: "0.1",
+    blocks: [
+      {
+        id: definition.id,
+        label: definition.label,
+        description: definition.description,
+        configuration: z.toJSONSchema(definition.schema, {
+          unrepresentable: "any",
+        }),
+        fields: definition.fields,
+        parts: definition.parts,
+        interactive: definition.interactive,
+        children: !!definition.children,
+        viewMode: "block",
+      },
+    ],
+    entries: {
+      server: "dist/server.js",
+      browser: "dist/browser.js",
+      settings: "dist/settings.js",
+    },
+    migrations: [],
+  };
+  await writeFile(
+    resolve(root, "block-package.json"),
+    JSON.stringify(manifest, null, 2) + "\n",
+  );
+
+  const dist = resolve(root, "dist");
   await mkdir(dist, { recursive: true });
   for (const kind of ["server", "browser", "settings"] as const) {
-    const sveltePlugin = {
+    const plugin = {
       name: "svelte-package",
       setup(builder: import("esbuild").PluginBuild) {
         builder.onLoad({ filter: /\.svelte$/ }, async ({ path }) => ({
@@ -52,12 +76,8 @@ async function buildSvelteEntries(directory: string) {
         : kind === "browser"
           ? `import {hydrate} from 'svelte';import View from './View.svelte';export function mount(target,props){return hydrate(View,{target,props});}`
           : `import {mount} from 'svelte';import {proxy} from 'svelte/internal/client';import Settings from './Settings.svelte';import MediaPicker from '@mywinkel/block-sdk/editor/RemoteMediaPicker.svelte';let port,current;window.addEventListener('message',event=>{if(event.source!==parent||port||!event.ports[0])return;port=event.ports[0];port.onmessage=e=>{if(e.data.type==='update'&&current){Object.assign(current,e.data.block);return;}if(e.data.type!=='configure'||current)return;document.documentElement.classList.toggle('dark',e.data.theme==='dark');if(e.data.css){const style=document.createElement('style');style.textContent=e.data.css;document.head.append(style);}const block=proxy(e.data.block);current=block;globalThis.__cmsSettingsPort=port;mount(Settings,{target:document.getElementById('settings'),props:{block,host:{...e.data.host,MediaPicker},onchange:()=>port.postMessage({type:'change',block:JSON.parse(JSON.stringify(block))})}});};port.start();});`;
-    const result = await build({
-      stdin: {
-        contents: entry,
-        resolveDir: directory,
-        sourcefile: "entry.js",
-      },
+    const result = await bundle({
+      stdin: { contents: entry, resolveDir: root, sourcefile: "entry.js" },
       bundle: true,
       minify: true,
       write: false,
@@ -67,76 +87,11 @@ async function buildSvelteEntries(directory: string) {
       target: "es2022",
       conditions:
         kind === "server" ? ["svelte", "worker"] : ["svelte", "browser"],
-      plugins: [sveltePlugin],
+      plugins: [plugin],
     });
     await writeFile(resolve(dist, kind + ".js"), result.outputFiles[0].text);
   }
 }
-export async function buildPackages() {
-  for (const name of await readdir(resolve(root, "packages"))) {
-    if (name === "sdk") continue;
-    const directory = resolve(root, "packages", name);
-    const { definition } = await import(resolve(directory, "definition.ts"));
-    const schema = z.toJSONSchema(definition.schema, {
-      unrepresentable: "any",
-    });
-    const mode = checkout.has(name)
-      ? "checkout"
-      : account.has(name)
-        ? name
-        : name === "menu"
-          ? "menu"
-          : name === "enquiry"
-            ? "enquiry"
-            : name === "form"
-              ? "form"
-              : "block";
-    const manifest = {
-      format: 1,
-      name: "@mywinkel/block-" + name,
-      version: JSON.parse(
-        await readFile(resolve(root, "packages/sdk/package.json"), "utf8"),
-      ).version,
-      sdkVersion: "0.1",
-      blocks: [
-        {
-          id: name,
-          label: definition.label,
-          description: definition.description,
-          configuration: schema,
-          fields: definition.fields,
-          parts: definition.parts,
-          interactive: definition.interactive,
-          children: !!definition.children,
-          viewMode: mode,
-        },
-      ],
-      entries: {
-        server: "dist/server.js",
-        browser: "dist/browser.js",
-        settings: "dist/settings.js",
-      },
-      migrations: [],
-    };
-    await writeFile(
-      resolve(directory, "block-package.json"),
-      JSON.stringify(manifest, null, 2) + "\n",
-    );
-    await buildSvelteEntries(directory);
-  }
-}
-export async function buildExample() {
-  const example = await import(resolve(root, "examples/notes/build.ts"));
-  await example.build();
-}
-export async function buildStarterExample() {
-  const example = await import(
-    resolve(root, "examples/starter/build.ts")
-  );
-  await example.build();
-}
-if (import.meta.main) {
-  await buildPackages();
-  await buildExample();
-  await buildStarterExample();
-}
+
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url))
+  await build();

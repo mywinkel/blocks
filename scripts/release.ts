@@ -10,7 +10,7 @@ import {
 import { tmpdir } from "node:os";
 import { resolve, join } from "node:path";
 import { createHash } from "node:crypto";
-import { buildPackages, buildExample } from "./build";
+import { buildPackages, buildExample, buildStarterExample } from "./build";
 import { packageManifestSchema } from "../packages/sdk/src/manifest";
 const root = resolve(import.meta.dirname, ".."),
   version = JSON.parse(
@@ -20,15 +20,24 @@ const root = resolve(import.meta.dirname, ".."),
   base = "https://github.com/mywinkel/blocks/releases/download/" + tag;
 await buildPackages();
 await buildExample();
+await buildStarterExample();
 await mkdir(resolve(root, "release"), { recursive: true });
 const packages = [];
+const examples = { "example-notes": "notes", "example-starter": "starter" };
+const lockfiles = new Set([
+  "bun.lock",
+  "bun.lockb",
+  "package-lock.json",
+  "pnpm-lock.yaml",
+  "yarn.lock",
+]);
 for (const directory of [
   ...(await readdir(resolve(root, "packages"))).sort(),
-  "example-notes",
+  ...Object.keys(examples),
 ]) {
   const source =
-      directory === "example-notes"
-        ? resolve(root, "examples/notes")
+      directory in examples
+        ? resolve(root, "examples", examples[directory as keyof typeof examples])
         : resolve(root, "packages", directory),
     temporary = await mkdtemp(join(tmpdir(), "mywinkel-block-")),
     stage = join(temporary, "package");
@@ -36,9 +45,9 @@ for (const directory of [
     await cp(source, stage, {
       recursive: true,
       filter: (path) =>
-        !path
-          .split("/")
-          .some((part) => part === "node_modules" || part === ".git") &&
+        !path.split("/").some(
+          (part) => part === "node_modules" || part === ".git" || lockfiles.has(part),
+        ) &&
         !/\.(?:test|spec)\.ts$/.test(path),
     });
     await cp(resolve(root, "LICENSE"), join(stage, "LICENSE"));
@@ -79,8 +88,8 @@ for (const directory of [
     const asset =
         (directory === "sdk"
           ? "block-sdk"
-          : directory === "example-notes"
-            ? "example-notes"
+          : directory.startsWith("example-")
+            ? directory
             : "block-" + directory) +
         "-" +
         version +

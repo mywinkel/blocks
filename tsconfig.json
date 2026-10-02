@@ -14,7 +14,9 @@
   },
   "include": [
     "packages/**/*.ts",
-    "packages/**/*.svelte"
+    "packages/**/*.svelte",
+    "examples/**/*.ts",
+    "examples/**/*.svelte"
   ],
   "exclude": [
     "node_modules"

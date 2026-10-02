@@ -37,13 +37,21 @@ describe("independent system package contracts", () => {
   });
 });
 
-it("validates the standalone SDK example before releasing its catalogue entry", async () => {
-  const manifest = JSON.parse(
-    await readFile(resolve("examples/notes/block-package.json"), "utf8"),
-  );
-  expect(packageManifestSchema.parse(manifest).name).toBe("@example/notes");
-  expect(manifest.version).toBe(
-    JSON.parse(await readFile(resolve("examples/notes/package.json"), "utf8"))
-      .version,
-  );
+it("keeps authoring examples optional and separate from system packages", async () => {
+  for (const name of ["notes", "starter"]) {
+    const directory = resolve("examples", name),
+      pkg = JSON.parse(
+        await readFile(resolve(directory, "package.json"), "utf8"),
+      ),
+      manifest = packageManifestSchema.parse(
+        JSON.parse(
+          await readFile(resolve(directory, "block-package.json"), "utf8"),
+        ),
+      );
+    expect(pkg.name).toBe(`@example/${name}`);
+    expect(pkg.name).not.toMatch(/^@mywinkel\/block-/);
+    expect(manifest.name).toBe(pkg.name);
+    expect(manifest.version).toBe(pkg.version);
+    expect(manifest.entries.server).toBe("dist/server.js");
+  }
 });
