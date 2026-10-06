@@ -1,5 +1,22 @@
 /** Base utilities for the pre-order block's named visual parts. */
 export const namedPartDefaults = {
+	'preorder.menu': 'grid gap-4',
+	'preorder.meal': 'border border-border',
+	'preorder.meal-summary':
+		'flex min-h-16 cursor-pointer list-none items-center justify-between gap-4 p-5',
+	'preorder.meal-title': 'block text-2xl font-medium',
+	'preorder.meal-meta': 'mt-2 block text-sm',
+	'preorder.meal-body': 'grid gap-5 border-t border-border p-5',
+	'preorder.meal-details': 'grid content-start gap-5',
+	'preorder.meal-image': 'aspect-[4/3] w-full object-cover',
+	'preorder.add': 'min-h-11 bg-primary px-5 py-3 font-medium text-primary-foreground',
+	'preorder.basket': 'grid gap-4 border border-border bg-muted p-5',
+	'preorder.basket-heading': 'text-2xl font-medium',
+	'preorder.basket-list': 'grid gap-3',
+	'preorder.basket-line': 'flex items-start justify-between gap-4 border-b border-border py-3',
+	'preorder.remove': 'min-h-11 px-3 text-sm underline underline-offset-4',
+	'preorder.total': 'text-lg font-semibold tabular-nums',
+
 	'preorder.root':
 		'grid min-w-0 gap-6 text-foreground [&_a]:underline [&_a]:underline-offset-4 [&_input]:caret-primary',
 	'preorder.empty': 'text-sm leading-6 text-muted-foreground',

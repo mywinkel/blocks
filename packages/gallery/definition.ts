@@ -5,9 +5,24 @@ import { common, cardFields } from '@mywinkel/block-sdk/fields';
 export const definition = defineBlock({
 	id: 'gallery',
 	label: 'Gallery',
-	description: 'Gallery block',
-	schema: z.object({ ...common, ...cardFields }).strict(),
+	description: 'Show authored imagery as a grid or an accessible manual slideshow.',
+	schema: z
+		.object({
+			...common,
+			...cardFields,
+			presentation: z.enum(['grid', 'slideshow']).default('grid')
+		})
+		.strict(),
 	fields: [
+		{
+			key: 'presentation',
+			label: 'Presentation',
+			type: 'select',
+			options: [
+				{ value: 'grid', label: 'Grid' },
+				{ value: 'slideshow', label: 'Manual slideshow' }
+			]
+		},
 		{ key: 'heading', label: 'Heading', type: 'text' },
 		{
 			key: 'layout',
@@ -23,6 +38,6 @@ export const definition = defineBlock({
 		{ key: 'showDescriptions', label: 'Show descriptions', type: 'checkbox' }
 	],
 	parts: { ...namedPartDefaults },
-	interactive: false,
+	interactive: true,
 	children: false
 });

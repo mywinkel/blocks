@@ -1,7 +1,7 @@
 {
   "format": 1,
   "name": "@mywinkel/block-membership",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "sdkVersion": "0.1",
   "blocks": [
     {
@@ -44,6 +44,9 @@
       "parts": {
         "block.root": "min-w-0 wrap-anywhere data-[cms-block]:relative data-[cms-block]:outline-offset-8 data-[cms-block]:hover:outline data-[cms-block]:hover:outline-dashed data-[cms-block]:hover:outline-ring data-[cms-selected]:outline-2 data-[cms-selected]:outline-ring",
         "block.heading": "mb-6 text-3xl font-medium",
+        "checkout.brief": "grid gap-6",
+        "checkout.next": "min-h-11 bg-primary px-5 py-3 text-primary-foreground",
+        "checkout.back": "min-h-11 text-left underline underline-offset-4",
         "loading.error": "grid gap-3 rounded-xl border border-destructive/40 bg-destructive/5 p-4 text-sm text-destructive",
         "loading.reload": "inline-flex min-h-11 items-center justify-center rounded-lg border border-destructive/40 bg-background px-4 py-2 font-semibold text-destructive underline-offset-4 transition-opacity hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-60",
         "loading.status": "text-sm text-muted-foreground",

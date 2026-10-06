@@ -1,0 +1,134 @@
+{
+  "format": 1,
+  "name": "@mywinkel/block-accordion",
+  "version": "0.1.5",
+  "sdkVersion": "0.1",
+  "blocks": [
+    {
+      "id": "accordion",
+      "label": "Accordion",
+      "description": "Expandable answers and practical information.",
+      "configuration": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "heading": {
+            "default": "",
+            "type": "string",
+            "maxLength": 500
+          },
+          "cards": {
+            "default": [],
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100,
+                  "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]*$"
+                },
+                "title": {
+                  "type": "string",
+                  "maxLength": 500
+                },
+                "text": {
+                  "default": "",
+                  "type": "string",
+                  "maxLength": 5000
+                },
+                "image": {
+                  "default": "",
+                  "type": "string",
+                  "maxLength": 2000
+                },
+                "mediaId": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100,
+                  "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]*$"
+                },
+                "alt": {
+                  "default": "",
+                  "type": "string",
+                  "maxLength": 500
+                },
+                "href": {
+                  "default": "",
+                  "type": "string",
+                  "maxLength": 2000
+                }
+              },
+              "required": [
+                "id",
+                "title",
+                "text",
+                "image",
+                "alt",
+                "href"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "allowMultiple": {
+            "default": true,
+            "type": "boolean"
+          },
+          "openFirst": {
+            "default": false,
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "heading",
+          "cards",
+          "allowMultiple",
+          "openFirst"
+        ],
+        "additionalProperties": false
+      },
+      "fields": [
+        {
+          "key": "heading",
+          "label": "Heading",
+          "type": "text"
+        },
+        {
+          "key": "allowMultiple",
+          "label": "Allow several answers open",
+          "type": "checkbox"
+        },
+        {
+          "key": "openFirst",
+          "label": "Open the first answer",
+          "type": "checkbox"
+        }
+      ],
+      "parts": {
+        "block.root": "min-w-0 wrap-anywhere data-[cms-block]:relative data-[cms-block]:outline-offset-8 data-[cms-block]:hover:outline data-[cms-block]:hover:outline-dashed data-[cms-block]:hover:outline-ring data-[cms-selected]:outline-2 data-[cms-selected]:outline-ring",
+        "block.heading": "mb-6 text-3xl font-medium",
+        "accordion.root": "min-w-0",
+        "accordion.heading": "mb-6 text-3xl font-medium text-balance",
+        "accordion.list": "divide-y divide-border border-y border-border",
+        "accordion.item": "group min-w-0",
+        "accordion.trigger": "flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-left font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring [&::-webkit-details-marker]:hidden",
+        "accordion.indicator": "shrink-0 text-xl group-open:rotate-45 motion-reduce:transform-none",
+        "accordion.body": "max-w-prose pb-6 leading-relaxed whitespace-pre-line text-muted-foreground",
+        "accordion.image": "mb-4 h-auto max-w-full",
+        "accordion.link": "mt-4 inline-block underline underline-offset-4",
+        "accordion.empty": "text-sm text-muted-foreground"
+      },
+      "interactive": true,
+      "children": false,
+      "viewMode": "block"
+    }
+  ],
+  "entries": {
+    "server": "dist/server.js",
+    "browser": "dist/browser.js",
+    "settings": "dist/settings.js"
+  },
+  "migrations": []
+}

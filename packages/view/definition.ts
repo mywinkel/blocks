@@ -5,7 +5,7 @@ import { common, sourceFields } from '@mywinkel/block-sdk/fields';
 export const definition = defineBlock({
 	id: 'view',
 	label: 'Content view',
-	description: 'Content view block',
+	description: 'Publish a read-only snapshot of public catalogue records as editorial cards.',
 	schema: z.object({ ...common, ...sourceFields }).strict(),
 	fields: [
 		{ key: 'heading', label: 'Heading', type: 'text' },

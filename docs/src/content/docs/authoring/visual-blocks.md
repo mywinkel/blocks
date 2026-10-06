@@ -92,3 +92,35 @@ page's browser privileges. Treat it as trusted code: validate input, avoid
 exposing secrets, and keep server-only work out of browser bundles.
 
 Continue with the [manifest reference](/blocks/authoring/package-manifest/).
+
+## Maintained composition examples
+
+The coordinated system set includes Hero and Accordion alongside existing block
+identities. Hero supports photographic split, wide and stacked arrangements,
+media-side placement and primary/secondary links. Accordion uses native
+`details`/`summary` with multiple-open or exclusive behavior. Gallery keeps its
+original grid and adds a manual slideshow with buttons, swipe and slide status.
+Expose these choices as validated properties and named appearance parts.
+
+Catalogue is a commerce listing over the public projection: search, category
+filters, price/name/session sorting, show-more, details and purchase/selection
+links. Public record IDs associate authored photographs with items. Authored
+cards cannot supply authoritative prices or permissions. Its settings expose the
+public item ID so photographs can be attached to new records. Grid remains for
+authored cards, and View for read-only projected collections.
+
+The SDK's `shared/selection` module exposes `readSelection`, `writeSelection`,
+`subscribeSelection`, `cartQuantities` and `addToCart`. Keys include tenant and
+selection kind. A DOM event synchronizes independently compiled bundles, with
+storage events for other tabs. Treat values as untrusted customer hints; receiving
+blocks match IDs to public catalogue data, and backend commands validate current
+prices, ownership and availability. This protocol carries no authorization.
+
+Cart retains `full` and supports `summary` and native modal `drawer` layouts.
+Enquiry exposes labels, guidance, preselection and optional staged brief/contact
+steps. With a service source, `serviceFirst` starts with a compact service choice;
+changing that choice keeps the mounted brief and contact draft. Mixed Preorder
+`menu`/`boxes` presentations retain the compatible `select`
+default and legacy first-line fields while adding bounded `items`. The host owns
+atomic pricing, capacity, preparation and payments; do not duplicate these rules
+inside frontend or settings code.

@@ -11,6 +11,7 @@
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "build": "bun scripts/build.ts",
     "check:browser": "bun scripts/test-settings.ts",
+    "check:interactions": "bun scripts/test-interactions.ts",
     "docs:dev": "astro dev --root docs",
     "docs:build": "astro build --root docs",
     "docs:preview": "astro preview --root docs"

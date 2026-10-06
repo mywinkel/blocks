@@ -1,7 +1,7 @@
 {
   "format": 1,
   "name": "@mywinkel/block-page-content",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "sdkVersion": "0.1",
   "blocks": [
     {
@@ -16,10 +16,15 @@
             "default": "",
             "type": "string",
             "maxLength": 500
+          },
+          "showHeading": {
+            "default": true,
+            "type": "boolean"
           }
         },
         "required": [
-          "heading"
+          "heading",
+          "showHeading"
         ],
         "additionalProperties": false
       },
@@ -28,6 +33,11 @@
           "key": "heading",
           "label": "Heading",
           "type": "text"
+        },
+        {
+          "key": "showHeading",
+          "label": "Show page heading",
+          "type": "checkbox"
         }
       ],
       "parts": {

@@ -3,6 +3,6 @@ import View from './View.svelte';
 import type {BlockViewProps} from '@mywinkel/block-sdk/contract';
 type Props=BlockViewProps;
 const {block,data,appearance}=Astro.props;
-const props={appearance,heading:block.props.heading||undefined};
+const props={...(block.type==='enquiry'?block.props:{}),initial:data.catalogue,appearance,heading:block.props.heading||undefined};
 ---
 {data.preview?<div inert><View {...props}/></div>:<View {...props} client:load/>}

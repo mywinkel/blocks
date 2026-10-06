@@ -1,3 +1,4 @@
+import { generateTypes } from "./generate-types";
 import { build, transform } from "esbuild";
 import { compile, compileModule } from "svelte/compiler";
 import { readFile, writeFile, mkdir, readdir } from "node:fs/promises";
@@ -73,6 +74,7 @@ async function buildSvelteEntries(directory: string) {
   }
 }
 export async function buildPackages() {
+  await generateTypes();
   for (const name of await readdir(resolve(root, "packages"))) {
     if (name === "sdk") continue;
     const directory = resolve(root, "packages", name);
@@ -130,9 +132,7 @@ export async function buildExample() {
   await example.build();
 }
 export async function buildStarterExample() {
-  const example = await import(
-    resolve(root, "examples/starter/build.ts")
-  );
+  const example = await import(resolve(root, "examples/starter/build.ts"));
   await example.build();
 }
 if (import.meta.main) {

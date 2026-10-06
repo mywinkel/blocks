@@ -1,13 +1,42 @@
 import { namedPartDefaults } from './parts';
 import { z } from 'zod';
 import { defineBlock } from '@mywinkel/block-sdk/contract';
-import { common, sourceFields } from '@mywinkel/block-sdk/fields';
+import { common, sourceFields, url } from '@mywinkel/block-sdk/fields';
 export const definition = defineBlock({
 	id: 'catalogue',
 	label: 'Catalogue',
-	description: 'Catalogue block',
-	schema: z.object({ ...common, ...sourceFields }).strict(),
+	description:
+		'Shop public products, services, menus and offers with prices, details and purchase actions.',
+	schema: z
+		.object({
+			...common,
+			...sourceFields,
+			sort: z.enum(['name', 'name-desc', 'price', 'price-desc', 'start']).default('name'),
+			upcomingOnly: z.boolean().default(false),
+			showControls: z.boolean().default(true),
+			showPrices: z.boolean().default(true),
+			action: z.enum(['auto', 'cart', 'select', 'enquiry', 'none']).default('auto'),
+			actionHref: url.default('#checkout')
+		})
+		.strict(),
 	fields: [
+		{ key: 'upcomingOnly', label: 'Upcoming classes only', type: 'checkbox' },
+		{
+			key: 'showControls',
+			label: 'Search, filter and sort controls',
+			type: 'checkbox'
+		},
+		{ key: 'showPrices', label: 'Show prices', type: 'checkbox' },
+		{
+			key: 'action',
+			label: 'Item action',
+			type: 'select',
+			options: ['auto', 'cart', 'select', 'enquiry', 'none'].map((value) => ({
+				value,
+				label: value
+			}))
+		},
+		{ key: 'actionHref', label: 'Checkout / enquiry section', type: 'url' },
 		{ key: 'heading', label: 'Heading', type: 'text' },
 		{
 			key: 'layout',
@@ -41,6 +70,7 @@ export const definition = defineBlock({
 			type: 'select',
 			options: [
 				{ value: 'name', label: 'Name A\u2013Z' },
+				{ value: 'start', label: 'Soonest session first' },
 				{ value: 'name-desc', label: 'Name Z\u2013A' },
 				{ value: 'price', label: 'Price low to high' },
 				{ value: 'price-desc', label: 'Price high to low' }
@@ -50,6 +80,6 @@ export const definition = defineBlock({
 		{ key: 'href', label: 'Item link', type: 'url' }
 	],
 	parts: { ...namedPartDefaults },
-	interactive: false,
+	interactive: true,
 	children: false
 });

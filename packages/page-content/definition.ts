@@ -6,8 +6,11 @@ export const definition = defineBlock({
 	id: 'page-content',
 	label: 'Page content',
 	description: 'Page content block',
-	schema: z.object({ ...common }).strict(),
-	fields: [{ key: 'heading', label: 'Heading', type: 'text' }],
+	schema: z.object({ ...common, showHeading: z.boolean().default(true) }).strict(),
+	fields: [
+		{ key: 'heading', label: 'Heading', type: 'text' },
+		{ key: 'showHeading', label: 'Show page heading', type: 'checkbox' }
+	],
 	parts: { ...namedPartDefaults },
 	interactive: false,
 	children: false

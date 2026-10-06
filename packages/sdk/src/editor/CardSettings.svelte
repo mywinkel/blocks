@@ -13,8 +13,17 @@
 </script>
 
 {#if settings}<div class="mt-4 space-y-4">
-		{#each settings.cards as card, index (card.id)}<fieldset class="space-y-3 border-t pt-4">
+		{#each settings.cards as card, index (card)}<fieldset class="space-y-3 border-t pt-4">
 				<legend class="text-sm font-medium">Item {index + 1}</legend>
+				{#if block.type === 'catalogue' || block.type === 'preorder'}
+					<label class="block space-y-1 text-xs"
+						>Public item ID<Input bind:value={card.id} oninput={onchange} /></label
+					>
+					<p class="text-xs text-muted-foreground">
+						Match the product, service, menu or offer ID. Images are presentation only; prices and
+						names come from the public catalogue.
+					</p>
+				{/if}
 				<label class="block space-y-1 text-xs"
 					>Title<Input bind:value={card.title} oninput={onchange} /></label
 				>

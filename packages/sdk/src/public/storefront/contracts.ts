@@ -95,9 +95,28 @@ export const purchaseSchema = z.discriminatedUnion('kind', [
 		membershipId: id.optional(),
 		expectedPriceMinor: cents
 	}),
-	z.object({ kind: z.literal('membership'), offerId: id, expectedPriceMinor: cents }),
+	z.object({
+		kind: z.literal('membership'),
+		offerId: id,
+		expectedPriceMinor: cents
+	}),
 	z.object({
 		kind: z.literal('preorder'),
+		items: z
+			.array(
+				z
+					.object({
+						menuId: id,
+						quantity: z.number().int().min(1).max(1000),
+						extras: z.array(z.string().max(100)).max(30).default([]),
+						expectedPriceMinor: cents,
+						expectedExtraPriceMinor: cents.optional()
+					})
+					.strict()
+			)
+			.min(1)
+			.max(100)
+			.optional(),
 		menuId: id,
 		quantity: z.number().int().min(1).max(1000),
 		collectionAt: instant,
@@ -167,6 +186,11 @@ export type Catalogue = {
 	items: CatalogueItem[];
 	locations: { id: string; name: string; address: string; pickup: boolean }[];
 	staff: { id: string; name: string }[];
-	delivery: { localEnabled: boolean; areas: string[]; feeMinor: number; courierEnabled?: boolean };
+	delivery: {
+		localEnabled: boolean;
+		areas: string[];
+		feeMinor: number;
+		courierEnabled?: boolean;
+	};
 	capabilities: Record<string, boolean>;
 };

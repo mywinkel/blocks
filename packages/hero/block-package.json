@@ -1,0 +1,217 @@
+{
+  "format": 1,
+  "name": "@mywinkel/block-hero",
+  "version": "0.1.5",
+  "sdkVersion": "0.1",
+  "blocks": [
+    {
+      "id": "hero",
+      "label": "Hero",
+      "description": "An editorial opening with optional photography and two actions.",
+      "configuration": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "heading": {
+            "default": "",
+            "type": "string",
+            "maxLength": 500
+          },
+          "eyebrow": {
+            "default": "",
+            "type": "string",
+            "maxLength": 200
+          },
+          "text": {
+            "default": "",
+            "type": "string",
+            "maxLength": 5000
+          },
+          "src": {
+            "default": "",
+            "type": "string",
+            "maxLength": 2000
+          },
+          "mediaId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100,
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]*$"
+          },
+          "alt": {
+            "default": "",
+            "type": "string",
+            "maxLength": 500
+          },
+          "caption": {
+            "default": "",
+            "type": "string",
+            "maxLength": 500
+          },
+          "primaryLabel": {
+            "default": "",
+            "type": "string",
+            "maxLength": 100
+          },
+          "primaryHref": {
+            "default": "",
+            "type": "string",
+            "maxLength": 2000
+          },
+          "secondaryLabel": {
+            "default": "",
+            "type": "string",
+            "maxLength": 100
+          },
+          "secondaryHref": {
+            "default": "",
+            "type": "string",
+            "maxLength": 2000
+          },
+          "layout": {
+            "default": "split",
+            "type": "string",
+            "enum": [
+              "split",
+              "wide",
+              "stack"
+            ]
+          },
+          "mediaSide": {
+            "default": "right",
+            "type": "string",
+            "enum": [
+              "left",
+              "right"
+            ]
+          }
+        },
+        "required": [
+          "heading",
+          "eyebrow",
+          "text",
+          "src",
+          "alt",
+          "caption",
+          "primaryLabel",
+          "primaryHref",
+          "secondaryLabel",
+          "secondaryHref",
+          "layout",
+          "mediaSide"
+        ],
+        "additionalProperties": false
+      },
+      "fields": [
+        {
+          "key": "heading",
+          "label": "heading",
+          "type": "text"
+        },
+        {
+          "key": "eyebrow",
+          "label": "eyebrow",
+          "type": "text"
+        },
+        {
+          "key": "text",
+          "label": "text",
+          "type": "textarea"
+        },
+        {
+          "key": "alt",
+          "label": "alt",
+          "type": "text"
+        },
+        {
+          "key": "caption",
+          "label": "caption",
+          "type": "text"
+        },
+        {
+          "key": "primaryLabel",
+          "label": "Primary action",
+          "type": "text"
+        },
+        {
+          "key": "secondaryLabel",
+          "label": "Secondary action",
+          "type": "text"
+        },
+        {
+          "key": "src",
+          "label": "src",
+          "type": "url"
+        },
+        {
+          "key": "primaryHref",
+          "label": "primaryHref",
+          "type": "url"
+        },
+        {
+          "key": "secondaryHref",
+          "label": "secondaryHref",
+          "type": "url"
+        },
+        {
+          "key": "layout",
+          "label": "Layout",
+          "type": "select",
+          "options": [
+            {
+              "value": "split",
+              "label": "split"
+            },
+            {
+              "value": "wide",
+              "label": "wide"
+            },
+            {
+              "value": "stack",
+              "label": "stack"
+            }
+          ]
+        },
+        {
+          "key": "mediaSide",
+          "label": "Photograph side",
+          "type": "select",
+          "options": [
+            {
+              "value": "left",
+              "label": "left"
+            },
+            {
+              "value": "right",
+              "label": "right"
+            }
+          ]
+        }
+      ],
+      "parts": {
+        "block.root": "min-w-0 wrap-anywhere data-[cms-block]:relative data-[cms-block]:outline-offset-8 data-[cms-block]:hover:outline data-[cms-block]:hover:outline-dashed data-[cms-block]:hover:outline-ring data-[cms-selected]:outline-2 data-[cms-selected]:outline-ring",
+        "block.heading": "mb-6 text-3xl font-medium",
+        "hero.root": "grid items-center gap-8 py-10 md:py-16",
+        "hero.copy": "min-w-0",
+        "hero.eyebrow": "mb-5 text-xs font-semibold uppercase tracking-[0.16em]",
+        "hero.heading": "max-w-4xl text-5xl font-medium leading-[1.02] tracking-tight text-balance md:text-7xl",
+        "hero.text": "mt-6 max-w-xl text-lg leading-relaxed",
+        "hero.actions": "mt-8 flex flex-wrap items-center gap-4",
+        "hero.primary": "inline-flex min-h-11 items-center bg-primary px-5 py-3 font-medium text-primary-foreground focus-visible:outline-2 focus-visible:outline-offset-4",
+        "hero.secondary": "inline-flex min-h-11 items-center py-3 underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4",
+        "hero.figure": "min-w-0",
+        "hero.image": "aspect-[4/3] w-full object-cover",
+        "hero.caption": "mt-3 text-xs leading-relaxed text-muted-foreground"
+      },
+      "interactive": false,
+      "children": false,
+      "viewMode": "block"
+    }
+  ],
+  "entries": {
+    "server": "dist/server.js",
+    "browser": "dist/browser.js",
+    "settings": "dist/settings.js"
+  },
+  "migrations": []
+}

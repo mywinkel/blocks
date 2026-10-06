@@ -1,13 +1,13 @@
 {
   "format": 1,
   "name": "@mywinkel/block-view",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "sdkVersion": "0.1",
   "blocks": [
     {
       "id": "view",
       "label": "Content view",
-      "description": "Content view block",
+      "description": "Publish a read-only snapshot of public catalogue records as editorial cards.",
       "configuration": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",

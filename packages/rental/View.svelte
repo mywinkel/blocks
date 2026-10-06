@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { connectSelection } from '@mywinkel/block-sdk/shared/selection.svelte';
 	import type { Catalogue } from '@mywinkel/block-sdk/public/storefront/contracts';
 	import type { AppearanceInput } from '@mywinkel/block-sdk/appearance';
 	import { createClasses } from '@mywinkel/block-sdk/appearance.svelte';
@@ -24,9 +25,27 @@
 		termsUrl = '/terms',
 		appearance
 	}: Props = $props();
+	let offerId = $state('');
+	let start = $state(''),
+		end = $state(''),
+		quantity = $state(1);
 	const cx = createClasses(() => appearance);
 	const catalogue = useCatalogue(() => initial);
 	const data = $derived(catalogue.data);
+	const chosen = $derived(
+		data?.items.find((item) => item.type === 'rental-offer' && item.id === offerId)
+	);
+	const units = $derived(
+		start && end && chosen
+			? Math.ceil(
+					(Date.parse(localTime(end)) - Date.parse(localTime(start))) /
+						(chosen.details.rateUnit === 'hour' ? 3600000 : 86400000)
+				)
+			: 0
+	);
+	const hireMinor = $derived(
+		chosen && units > 0 && quantity > 0 ? chosen.priceMinor * units * quantity : 0
+	);
 	const offers = $derived(data?.items.filter((item) => item.type === 'rental-offer') ?? []);
 	const rootClass = $derived(
 		[cx('rental.root', namedPartDefaults['rental.root']), className, legacyClass]
@@ -37,6 +56,11 @@
 	const controlClass = $derived(cx('rental.control', namedPartDefaults['rental.control']));
 	const fieldsClass = $derived(cx('rental.fields', namedPartDefaults['rental.fields']));
 	const noteClass = $derived(cx('rental.note', namedPartDefaults['rental.note']));
+	connectSelection(
+		() => data,
+		'rental-offer',
+		(id) => (offerId = id)
+	);
 </script>
 
 {#if !data}
@@ -55,6 +79,8 @@
 		{termsUrl}
 		label="Reserve equipment"
 		purchase={(form) => {
+			if (!start || !end || Date.parse(localTime(end)) <= Date.parse(localTime(start)))
+				throw new Error('Return must be after collection.');
 			const offer = offers.find((item) => item.id === field(form, 'offerId'))!;
 			return {
 				kind: 'rental',
@@ -68,12 +94,30 @@
 			};
 		}}
 	>
+		{#snippet summary()}{#if chosen}<div
+					class={cx('rental.summary', 'grid gap-2 border-t border-border pt-5')}
+				>
+					<p>{chosen.name} · {money(chosen.priceMinor)} per started {chosen.details.rateUnit}</p>
+					{#if units > 0}<p>
+							{quantity} × {units} started {chosen.details.rateUnit}{units === 1 ? '' : 's'} · Hire {money(
+								hireMinor
+							)}
+						</p>
+						<p>
+							Total including security deposit {money(
+								hireMinor + Number(chosen.details.depositMinor)
+							)}
+						</p>{/if}
+					<p>Deposit due now {money(Number(chosen.details.depositMinor))}</p>
+					{#if units > 0}<p>Hire balance after deposit {money(hireMinor)}</p>{/if}
+				</div>{/if}{/snippet}
 		<ItemSelect
 			items={offers.map((offer) => ({
 				...offer,
 				name: `${offer.name} · per started ${offer.details.rateUnit} · ${money(Number(offer.details.depositMinor))} deposit`
 			}))}
 			name="offerId"
+			bind:value={offerId}
 			label="Equipment"
 			class={fieldClass}
 		/>
@@ -81,11 +125,24 @@
 		<div class={fieldsClass}>
 			<label class={fieldClass}>
 				Collect
-				<input class={controlClass} type="datetime-local" name="start" required />
+				<input
+					class={controlClass}
+					type="datetime-local"
+					name="start"
+					bind:value={start}
+					required
+				/>
 			</label>
 			<label class={fieldClass}>
 				Return
-				<input class={controlClass} type="datetime-local" name="end" required />
+				<input
+					class={controlClass}
+					type="datetime-local"
+					name="end"
+					bind:value={end}
+					min={start || undefined}
+					required
+				/>
 			</label>
 		</div>
 
@@ -98,7 +155,7 @@
 				min="1"
 				max="1000"
 				step="1"
-				value="1"
+				bind:value={quantity}
 				required
 			/>
 		</label>

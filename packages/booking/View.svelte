@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { connectSelection } from '@mywinkel/block-sdk/shared/selection.svelte';
 	import type { Catalogue } from '@mywinkel/block-sdk/public/storefront/contracts';
 	import type { AppointmentAvailability } from '@mywinkel/block-sdk/public/storefront/availability';
 	import { storefrontClient } from '@mywinkel/block-sdk/public/storefront/client';
@@ -91,6 +92,11 @@
 			hour12: false
 		}).format(new Date(start));
 	}
+	connectSelection(
+		() => data,
+		'services',
+		(id) => (serviceId = id)
+	);
 </script>
 
 {#if !data}
@@ -117,6 +123,15 @@
 			expectedPriceMinor: services.find((item) => item.id === serviceId)!.priceMinor
 		})}
 	>
+		{#snippet summary()}{#if services.find((item) => item.id === serviceId)}{@const chosen =
+					services.find((item) => item.id === serviceId)!}
+				<p>{chosen.name} · {chosen.details.duration} minutes</p>
+				<p>Service total {money(chosen.priceMinor)}</p>
+				<p>
+					Deposit due now {money(
+						Math.round((chosen.priceMinor * Number(chosen.details.depositPercent ?? 0)) / 100)
+					)}
+				</p>{/if}{/snippet}
 		<label class={fieldClass}>
 			Service
 			<select

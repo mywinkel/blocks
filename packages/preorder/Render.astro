@@ -5,7 +5,7 @@ import View from './View.svelte';
 import type {BlockViewProps} from '@mywinkel/block-sdk/contract';
 type Props=BlockViewProps;
 const {block,data,appearance}=Astro.props;
-const props={initial:data.catalogue,termsUrl:'termsUrl' in block.props?block.props.termsUrl:undefined,appearance};
+const props={...(block.type==='preorder'?block.props:{}),initial:data.catalogue,appearance};
 ---
 {block.props.heading&&<h2 class={resolvePart(definition.parts['block.heading'],'block.heading',appearanceLayers(appearance))}>{block.props.heading}</h2>}
 {data.preview?<div inert><View {...props}/></div>:<View {...props} client:load/>}

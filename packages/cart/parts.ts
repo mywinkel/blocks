@@ -1,5 +1,9 @@
 /** Default Tailwind classes for the cart block's named appearance parts. */
 export const namedPartDefaults = {
+	'cart.drawer-trigger': 'min-h-11 border border-border px-4 py-2 text-sm',
+	'cart.drawer':
+		'fixed inset-0 ml-auto h-dvh max-h-dvh w-full max-w-lg overflow-y-auto border-l border-border bg-background p-5 text-foreground backdrop:bg-black/50 md:p-8',
+	'cart.drawer-close': 'mb-6 ml-auto block min-h-11 px-3 py-2 text-sm',
 	'cart.root': 'grid min-w-0 gap-8 text-foreground',
 	'cart.loading': 'grid min-w-0 gap-4 text-foreground',
 	'cart.empty-products': 'text-sm leading-relaxed text-muted-foreground',

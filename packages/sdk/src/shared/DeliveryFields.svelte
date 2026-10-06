@@ -10,6 +10,7 @@
 		catalogue: Catalogue;
 		collectionOnly?: boolean;
 		courier?: Snippet;
+		method?: DeliveryMethod;
 		class?: string;
 		className?: string;
 	};
@@ -18,11 +19,11 @@
 		catalogue,
 		collectionOnly = false,
 		courier,
+		method = $bindable('collection'),
 		class: className = '',
 		className: legacyClass = ''
 	}: Props = $props();
 	const cx = createClasses();
-	let method = $state<DeliveryMethod>('collection');
 	let extraClass = $derived(`${className} ${legacyClass}`.trim());
 
 	function changeMethod(event: Event) {

@@ -1,4 +1,5 @@
 const localPartDefaults = {
+	chooser: 'grid gap-4',
 	root: 'grid gap-4',
 	description: 'whitespace-pre-wrap text-sm leading-7',
 	summary: 'text-sm leading-6',

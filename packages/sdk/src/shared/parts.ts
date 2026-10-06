@@ -6,6 +6,9 @@
  * pulling the interactive views into their bundles.
  */
 export const namedPartDefaults = {
+	'checkout.brief': 'grid gap-6',
+	'checkout.next': 'min-h-11 bg-primary px-5 py-3 text-primary-foreground',
+	'checkout.back': 'min-h-11 text-left underline underline-offset-4',
 	'loading.error':
 		'grid gap-3 rounded-xl border border-destructive/40 bg-destructive/5 p-4 text-sm text-destructive',
 	'loading.reload':

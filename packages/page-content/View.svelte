@@ -12,9 +12,11 @@
 	aria-label={data.preview ? 'Page preview' : undefined}
 	data-cms-region={editable ? 'main' : undefined}
 >
-	<h1 class={cx('page.heading', 'text-4xl font-semibold text-balance')}>
-		{block.props.heading || data.page.title || data.page.name}
-	</h1>
+	{#if !('showHeading' in block.props) || block.props.showHeading}
+		<h1 class={cx('page.heading', 'text-4xl font-semibold text-balance')}>
+			{block.props.heading || data.page.title || data.page.name}
+		</h1>
+	{/if}
 	{@render children?.()}
 	{#if editable && !data.page.blocks.length}<p
 			class={cx('page.empty', 'text-sm text-muted-foreground')}

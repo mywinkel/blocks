@@ -7,8 +7,24 @@ export const definition = defineBlock({
 	id: 'cart',
 	label: 'Shopping cart',
 	description: 'Shopping cart block',
-	schema: z.object({ ...common, termsUrl: url.default('/terms') }).strict(),
+	schema: z
+		.object({
+			...common,
+			termsUrl: url.default('/terms'),
+			layout: z.enum(['full', 'summary', 'drawer']).default('full')
+		})
+		.strict(),
 	fields: [
+		{
+			key: 'layout',
+			label: 'Layout',
+			type: 'select',
+			options: [
+				{ value: 'full', label: 'Catalogue and checkout' },
+				{ value: 'summary', label: 'Bag and checkout' },
+				{ value: 'drawer', label: 'Modal bag drawer' }
+			]
+		},
 		{ key: 'heading', label: 'Heading', type: 'text' },
 		{ key: 'termsUrl', label: 'Terms page', type: 'url' }
 	],

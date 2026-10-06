@@ -1,6 +1,6 @@
 {
   "name": "@mywinkel/block-sdk",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "type": "module",
   "license": "MIT",
   "exports": {
@@ -58,7 +58,9 @@
       "browser": "./src/context.browser.ts",
       "default": "./src/context.server.ts"
     },
-    "./server": "./src/server.ts"
+    "./server": "./src/server.ts",
+    "./shared/selection": "./src/shared/selection.ts",
+    "./shared/selection.svelte": "./src/shared/selection.svelte.ts"
   },
   "dependencies": {
     "zod": "4.6.5",

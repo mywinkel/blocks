@@ -1,7 +1,7 @@
 {
   "format": 1,
   "name": "@mywinkel/block-cart",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "sdkVersion": "0.1",
   "blocks": [
     {
@@ -21,15 +21,44 @@
             "default": "/terms",
             "type": "string",
             "maxLength": 2000
+          },
+          "layout": {
+            "default": "full",
+            "type": "string",
+            "enum": [
+              "full",
+              "summary",
+              "drawer"
+            ]
           }
         },
         "required": [
           "heading",
-          "termsUrl"
+          "termsUrl",
+          "layout"
         ],
         "additionalProperties": false
       },
       "fields": [
+        {
+          "key": "layout",
+          "label": "Layout",
+          "type": "select",
+          "options": [
+            {
+              "value": "full",
+              "label": "Catalogue and checkout"
+            },
+            {
+              "value": "summary",
+              "label": "Bag and checkout"
+            },
+            {
+              "value": "drawer",
+              "label": "Modal bag drawer"
+            }
+          ]
+        },
         {
           "key": "heading",
           "label": "Heading",
@@ -44,6 +73,9 @@
       "parts": {
         "block.root": "min-w-0 wrap-anywhere data-[cms-block]:relative data-[cms-block]:outline-offset-8 data-[cms-block]:hover:outline data-[cms-block]:hover:outline-dashed data-[cms-block]:hover:outline-ring data-[cms-selected]:outline-2 data-[cms-selected]:outline-ring",
         "block.heading": "mb-6 text-3xl font-medium",
+        "checkout.brief": "grid gap-6",
+        "checkout.next": "min-h-11 bg-primary px-5 py-3 text-primary-foreground",
+        "checkout.back": "min-h-11 text-left underline underline-offset-4",
         "loading.error": "grid gap-3 rounded-xl border border-destructive/40 bg-destructive/5 p-4 text-sm text-destructive",
         "loading.reload": "inline-flex min-h-11 items-center justify-center rounded-lg border border-destructive/40 bg-background px-4 py-2 font-semibold text-destructive underline-offset-4 transition-opacity hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-60",
         "loading.status": "text-sm text-muted-foreground",
@@ -94,6 +126,9 @@
         "courier.option": "min-h-11 w-full rounded-lg border border-border bg-background px-3 py-2 text-base text-foreground shadow-xs outline-none transition focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30 disabled:cursor-not-allowed disabled:opacity-60",
         "courier.description": "text-sm leading-relaxed text-muted-foreground",
         "courier.total": "text-base font-semibold tabular-nums text-foreground",
+        "cart.drawer-trigger": "min-h-11 border border-border px-4 py-2 text-sm",
+        "cart.drawer": "fixed inset-0 ml-auto h-dvh max-h-dvh w-full max-w-lg overflow-y-auto border-l border-border bg-background p-5 text-foreground backdrop:bg-black/50 md:p-8",
+        "cart.drawer-close": "mb-6 ml-auto block min-h-11 px-3 py-2 text-sm",
         "cart.root": "grid min-w-0 gap-8 text-foreground",
         "cart.loading": "grid min-w-0 gap-4 text-foreground",
         "cart.empty-products": "text-sm leading-relaxed text-muted-foreground",

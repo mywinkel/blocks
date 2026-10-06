@@ -3,7 +3,7 @@
 	import { createClasses } from '../appearance.svelte';
 	let { block, appearance }: BlockViewProps = $props();
 	const cx = createClasses(() => appearance);
-	const settings = $derived('cards' in block.props ? block.props : null);
+	const settings = $derived('cards' in block.props && 'layout' in block.props ? block.props : null);
 	const columns = ['', 'sm:grid-cols-1', 'sm:grid-cols-2', 'sm:grid-cols-3', 'sm:grid-cols-4'];
 </script>
 

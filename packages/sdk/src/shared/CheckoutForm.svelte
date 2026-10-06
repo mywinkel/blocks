@@ -24,8 +24,10 @@
 		class?: string;
 		className?: string;
 		afterSubmit?: (receipt: Receipt) => void;
+		onLockChange?: (locked: boolean) => void;
 		summary?: Snippet;
 		paymentHold?: boolean;
+		staged?: boolean;
 	};
 
 	let {
@@ -37,18 +39,33 @@
 		class: className = '',
 		className: legacyClass = '',
 		afterSubmit,
+		onLockChange,
 		summary,
-		paymentHold = true
+		paymentHold = true,
+		staged = false
 	}: Props = $props();
 
 	const cx = createClasses();
 	let hydrated = $state(false);
+	let step = $state(1);
+	let brief = $state<HTMLDivElement>();
+	function continueToDetails() {
+		const invalid = brief?.querySelector<
+			HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+		>('input:invalid, select:invalid, textarea:invalid');
+		if (invalid) {
+			invalid.reportValidity();
+			return;
+		}
+		step = 2;
+	}
 	let pending = $state(false);
 	let error = $state('');
 	let receipt = $state<Receipt | undefined>();
 	let uncertain = $state(false);
 	let status = $state<HTMLDivElement | undefined>();
 	let id = $state('');
+	$effect(() => onLockChange?.(pending || uncertain || !!receipt));
 	let previous: { serialized: string; command: Checkout } | undefined;
 	let extraClass = $derived(`${className} ${legacyClass}`.trim());
 
@@ -148,8 +165,22 @@
 			class={cx('checkout.fieldset', namedPartDefaults['checkout.fieldset'])}
 			disabled={!hydrated || pending || uncertain}
 		>
-			{@render children?.()}
-			<fieldset class={cx('checkout.details', namedPartDefaults['checkout.details'])}>
+			<div
+				bind:this={brief}
+				hidden={staged && step !== 1}
+				class={cx('checkout.brief', 'grid gap-6')}
+			>
+				{@render children?.()}
+			</div>
+			{#if staged && step === 1}<button
+					type="button"
+					class={cx('checkout.next', namedPartDefaults['checkout.submit'])}
+					onclick={continueToDetails}>Continue to your details →</button
+				>{/if}
+			<fieldset
+				hidden={staged && step !== 2}
+				class={cx('checkout.details', namedPartDefaults['checkout.details'])}
+			>
 				<legend class={cx('checkout.legend', namedPartDefaults['checkout.legend'])}
 					>Your details</legend
 				>
@@ -202,17 +233,20 @@
 					</div>
 				</div>
 			</fieldset>
-			{#if summary}
+			{#if summary && (!staged || step === 2)}
 				<div class={cx('checkout.summary', namedPartDefaults['checkout.summary'])}>
 					{@render summary()}
 				</div>
 			{/if}
-			{#if paymentHold}
+			{#if paymentHold && (!staged || step === 2)}
 				<p class={cx('checkout.hold', namedPartDefaults['checkout.hold'])}>
 					If payment is required, your unpaid reservation is held for 30 minutes after you submit.
 				</p>
 			{/if}
-			<label class={cx('checkout.consent', namedPartDefaults['checkout.consent'])}>
+			<label
+				hidden={staged && step !== 2}
+				class={cx('checkout.consent', namedPartDefaults['checkout.consent'])}
+			>
 				<input
 					class={cx('checkout.consent-input', namedPartDefaults['checkout.consent-input'])}
 					type="checkbox"
@@ -232,6 +266,11 @@
 					.
 				</span>
 			</label>
+			{#if staged && step === 2}<button
+					type="button"
+					class={cx('checkout.back', 'min-h-11 text-left underline underline-offset-4')}
+					onclick={() => (step = 1)}>← Back to your brief</button
+				>{/if}
 		</fieldset>
 		{#if error}
 			<div
@@ -253,6 +292,7 @@
 			</p>
 		{/if}
 		<button
+			hidden={staged && step !== 2}
 			class={cx('checkout.submit', namedPartDefaults['checkout.submit'])}
 			type="submit"
 			disabled={pending || !hydrated}

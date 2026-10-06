@@ -1,13 +1,13 @@
 {
   "format": 1,
   "name": "@mywinkel/block-grid",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "sdkVersion": "0.1",
   "blocks": [
     {
       "id": "grid",
       "label": "Card grid",
-      "description": "Card grid block",
+      "description": "Arrange an authored set of cards and collection links.",
       "configuration": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",

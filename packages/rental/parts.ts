@@ -1,5 +1,6 @@
 /** Base utilities for the rental block's named visual parts. */
 export const namedPartDefaults = {
+	'rental.summary': 'grid gap-2 border-t border-border pt-5',
 	'rental.root':
 		'grid min-w-0 gap-6 text-foreground [&_a]:underline [&_a]:underline-offset-4 [&_input]:caret-primary',
 	'rental.empty': 'text-sm leading-6 text-muted-foreground',

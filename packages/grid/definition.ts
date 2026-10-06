@@ -5,7 +5,7 @@ import { common, cardFields } from '@mywinkel/block-sdk/fields';
 export const definition = defineBlock({
 	id: 'grid',
 	label: 'Card grid',
-	description: 'Card grid block',
+	description: 'Arrange an authored set of cards and collection links.',
 	schema: z.object({ ...common, ...cardFields }).strict(),
 	fields: [
 		{ key: 'heading', label: 'Heading', type: 'text' },

@@ -1,13 +1,13 @@
 {
   "format": 1,
   "name": "@mywinkel/block-gallery",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "sdkVersion": "0.1",
   "blocks": [
     {
       "id": "gallery",
       "label": "Gallery",
-      "description": "Gallery block",
+      "description": "Show authored imagery as a grid or an accessible manual slideshow.",
       "configuration": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",
@@ -93,6 +93,14 @@
           "showDescriptions": {
             "default": true,
             "type": "boolean"
+          },
+          "presentation": {
+            "default": "grid",
+            "type": "string",
+            "enum": [
+              "grid",
+              "slideshow"
+            ]
           }
         },
         "required": [
@@ -101,11 +109,27 @@
           "columns",
           "layout",
           "showImages",
-          "showDescriptions"
+          "showDescriptions",
+          "presentation"
         ],
         "additionalProperties": false
       },
       "fields": [
+        {
+          "key": "presentation",
+          "label": "Presentation",
+          "type": "select",
+          "options": [
+            {
+              "value": "grid",
+              "label": "Grid"
+            },
+            {
+              "value": "slideshow",
+              "label": "Manual slideshow"
+            }
+          ]
+        },
         {
           "key": "heading",
           "label": "Heading",
@@ -147,6 +171,12 @@
       "parts": {
         "block.root": "min-w-0 wrap-anywhere data-[cms-block]:relative data-[cms-block]:outline-offset-8 data-[cms-block]:hover:outline data-[cms-block]:hover:outline-dashed data-[cms-block]:hover:outline-ring data-[cms-selected]:outline-2 data-[cms-selected]:outline-ring",
         "block.heading": "mb-6 text-3xl font-medium",
+        "gallery.root": "py-10",
+        "gallery.slide": "min-w-0",
+        "gallery.image": "aspect-[4/3] w-full object-cover",
+        "gallery.controls": "mt-4 flex items-center justify-between gap-4",
+        "gallery.button": "min-h-11 border border-border px-4 py-2 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-4",
+        "gallery.status": "text-sm tabular-nums",
         "cards.heading": "mb-6 text-3xl font-medium text-balance",
         "cards.item": "min-w-0",
         "cards.image": "h-auto max-w-full object-cover",
@@ -156,7 +186,7 @@
         "cards.empty": "text-sm text-muted-foreground",
         "cards.grid": "grid gap-8"
       },
-      "interactive": false,
+      "interactive": true,
       "children": false,
       "viewMode": "block"
     }

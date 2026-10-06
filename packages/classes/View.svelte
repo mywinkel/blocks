@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { connectSelection } from '@mywinkel/block-sdk/shared/selection.svelte';
 	import type { Catalogue } from '@mywinkel/block-sdk/public/storefront/contracts';
 	import type { CustomerAccount } from '@mywinkel/block-sdk/public/storefront/customer-account';
 	import { storefrontClient } from '@mywinkel/block-sdk/public/storefront/client';
@@ -8,7 +9,7 @@
 	import ItemSelect from '@mywinkel/block-sdk/shared/ItemSelect.svelte';
 	import Loading from '@mywinkel/block-sdk/shared/Loading.svelte';
 	import { useCatalogue } from '@mywinkel/block-sdk/shared/catalogue.svelte';
-	import { field } from '@mywinkel/block-sdk/shared/forms';
+	import { field, money } from '@mywinkel/block-sdk/shared/forms';
 	import { namedPartDefaults } from './parts';
 
 	type Props = {
@@ -26,6 +27,7 @@
 		termsUrl = '/terms',
 		appearance
 	}: Props = $props();
+	let classId = $state('');
 	const cx = createClasses(() => appearance);
 	const catalogue = useCatalogue(() => initial);
 
@@ -63,6 +65,11 @@
 			loadingAccount = false;
 		}
 	}
+	connectSelection(
+		() => data,
+		'classes',
+		(id) => (classId = id)
+	);
 </script>
 
 {#if !data}
@@ -91,12 +98,16 @@
 			};
 		}}
 	>
+		{#snippet summary()}{#if classes.find((item) => item.id === classId)}{@const chosen =
+					classes.find((item) => item.id === classId)!}
+				<p>{chosen.name} · {money(chosen.priceMinor)}</p>{/if}{/snippet}
 		<ItemSelect
 			items={classes.map((item) => ({
 				...item,
 				name: `${item.name} · ${new Date(String(item.details.start)).toLocaleString('en-ZA', { timeZone: 'Africa/Johannesburg', dateStyle: 'medium', timeStyle: 'short' })}`
 			}))}
 			name="classId"
+			bind:value={classId}
 			label="Class"
 			class={fieldClass}
 		/>

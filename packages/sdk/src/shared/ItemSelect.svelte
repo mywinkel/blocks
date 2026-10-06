@@ -9,6 +9,7 @@
 		name: string;
 		label: string;
 		required?: boolean;
+		value?: string;
 		class?: string;
 		className?: string;
 	};
@@ -18,6 +19,7 @@
 		name,
 		label,
 		required = true,
+		value = $bindable(''),
 		class: className = '',
 		className: legacyClass = ''
 	}: Props = $props();
@@ -31,7 +33,7 @@
 		class={cx('item-select.control', namedPartDefaults['item-select.control'])}
 		{name}
 		{required}
-		value=""
+		bind:value
 	>
 		<option
 			class={cx('item-select.option', namedPartDefaults['item-select.option'])}

@@ -7,7 +7,7 @@ describe("independent system package contracts", () => {
     const folders = (await readdir("packages")).filter(
       (name) => name !== "sdk",
     );
-    expect(folders).toHaveLength(23);
+    expect(folders).toHaveLength(25);
     for (const name of folders) {
       const { definition } = await import(
         resolve("packages", name, "definition.ts")
