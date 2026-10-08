@@ -47,9 +47,11 @@ async function buildSvelteEntries(directory: string) {
         }));
       },
     };
+    // Each separately rendered island needs its own Svelte ID namespace. View-mode
+    // props omit block metadata; a shared fallback breaks anchors across instances.
     const entry =
       kind === "server"
-        ? `import {render} from 'svelte/server';import {createRawSnippet} from 'svelte';import View from './View.svelte';export default {async fetch(request,env){const input=await request.json();if(input.operation==='validate')return Response.json({ready:true});const props={...input.props};if(input.children)props.children=createRawSnippet(()=>({render:()=>input.children}));const result=render(View,{props,idPrefix:'block-'+(props.block?.id??'view')});return Response.json({html:result.body,head:result.head});}};`
+        ? `import {render} from 'svelte/server';import {createRawSnippet} from 'svelte';import View from './View.svelte';export default {async fetch(request,env){const input=await request.json();if(input.operation==='validate')return Response.json({ready:true});const props={...input.props};if(input.children)props.children=createRawSnippet(()=>({render:()=>input.children}));const result=render(View,{props,idPrefix:'block-'+(props.block?.id??crypto.randomUUID())});return Response.json({html:result.body,head:result.head});}};`
         : kind === "browser"
           ? `import {hydrate} from 'svelte';import View from './View.svelte';export function mount(target,props){return hydrate(View,{target,props});}`
           : `import {mount} from 'svelte';import {proxy} from 'svelte/internal/client';import Settings from './Settings.svelte';import MediaPicker from '@mywinkel/block-sdk/editor/RemoteMediaPicker.svelte';let port,current;window.addEventListener('message',event=>{if(event.source!==parent||port||!event.ports[0])return;port=event.ports[0];port.onmessage=e=>{if(e.data.type==='update'&&current){Object.assign(current,e.data.block);return;}if(e.data.type!=='configure'||current)return;document.documentElement.classList.toggle('dark',e.data.theme==='dark');if(e.data.css){const style=document.createElement('style');style.textContent=e.data.css;document.head.append(style);}const block=proxy(e.data.block);current=block;globalThis.__cmsSettingsPort=port;mount(Settings,{target:document.getElementById('settings'),props:{block,host:{...e.data.host,MediaPicker},onchange:()=>port.postMessage({type:'change',block:JSON.parse(JSON.stringify(block))})}});};port.start();});`;

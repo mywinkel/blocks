@@ -4,6 +4,8 @@ import { once } from "node:events";
 import assert from "node:assert/strict";
 import { chromium, expect } from "@playwright/test";
 import { buildPackages } from "./build";
+import { verifyBooking } from "./test-booking";
+import { verifyQuote } from "./test-quote";
 
 // Test the actual distributed browser/server entries. Closing the drawer must
 // preserve an uncertain financial operation, rather than creating another one.
@@ -52,6 +54,21 @@ const browserCode = await readFile(
   new URL("../packages/cart/dist/browser.js", import.meta.url),
   "utf8",
 );
+const summaries = await Promise.all(
+  [0, 1].map(async () => {
+    const input = { ...props, layout: "summary" };
+    const output = await (
+      await renderer.fetch(
+        new Request("http://fixture/", {
+          method: "POST",
+          body: JSON.stringify({ props: input }),
+        }),
+        {},
+      )
+    ).json();
+    return output.html;
+  }),
+);
 const server = createServer((request, response) => {
   if (request.url === "/browser.js") {
     response.setHeader("Content-Type", "text/javascript");
@@ -59,6 +76,18 @@ const server = createServer((request, response) => {
     return;
   }
   response.setHeader("Content-Type", "text/html");
+  if (request.url === "/multiple") {
+    response.end(
+      '<!doctype html><html lang="en"><title>Independent carts</title>' +
+        summaries
+          .map((html, index) => `<div id="cart-${index}">${html}</div>`)
+          .join("") +
+        '<script type="module">import {mount} from "/browser.js";for(const target of document.querySelectorAll("[id^=cart-]"))mount(target,' +
+        JSON.stringify({ ...props, layout: "summary" }) +
+        ");</script></html>",
+    );
+    return;
+  }
   response.end(
     '<!doctype html><html lang="en"><title>Cart interaction fixture</title><div id="cart">' +
       rendered.html +
@@ -139,6 +168,32 @@ try {
   console.log(
     "Drawer close/reopen retains drafts, uncertain operation identity and the completed receipt.",
   );
+  await page.goto("http://127.0.0.1:" + address.port + "/multiple");
+  await page.evaluate(() =>
+    localStorage.setItem(
+      "mywinkel:selection:v1:test-drawer:cart",
+      JSON.stringify({ product: 1 }),
+    ),
+  );
+  await page.reload();
+  const orders = page.getByRole("heading", { name: "Your order", exact: true });
+  await expect(orders).toHaveCount(2);
+  const ids = await orders.evaluateAll((elements) =>
+    elements.map((element) => element.id),
+  );
+  expect(new Set(ids).size).toBe(2);
+  for (let index = 0; index < 2; index++) {
+    await page
+      .locator(`#cart-${index}`)
+      .getByRole("link", { name: "View your order", exact: true })
+      .click();
+    await expect(orders.nth(index)).toBeFocused();
+  }
+  console.log(
+    "Independent cart instances retain unique order anchors and focus their own checkout.",
+  );
+  await verifyBooking(browser);
+  await verifyQuote(browser);
 } finally {
   await browser.close();
   await new Promise<void>((resolve) => server.close(() => resolve()));

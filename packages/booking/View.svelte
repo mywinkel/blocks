@@ -32,6 +32,7 @@
 	let serviceId = $state('');
 	let resourceId = $state('');
 	let date = $state('');
+	let slotStart = $state('');
 	let refresh = $state(0);
 	let availability = $state<{ key: string; value: AppointmentAvailability }>();
 	let failure = $state<{ key: string; message: string }>();
@@ -43,6 +44,13 @@
 	const ready = $derived(!!serviceId && !!resourceId && !!date);
 	const current = $derived(availability?.key === selectionKey ? availability.value : undefined);
 	const error = $derived(failure?.key === selectionKey ? failure.message : '');
+
+	$effect(() => {
+		// A new service, stylist, date or refresh needs a deliberate time choice.
+		// Native selects otherwise silently choose the first available option.
+		selectionKey;
+		slotStart = '';
+	});
 
 	$effect(() => {
 		const firstStaffId = data?.staff[0]?.id;
@@ -190,7 +198,13 @@
 		{#key selectionKey}
 			<label class={fieldClass}>
 				Appointment time
-				<select class={controlClass} name="start" required>
+				<select
+					class={controlClass}
+					name="start"
+					bind:value={slotStart}
+					disabled={!current?.slots.length}
+					required
+				>
 					<option value="" disabled>
 						{current?.slots.length ? 'Choose an available time' : 'Choose a service and date first'}
 					</option>

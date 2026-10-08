@@ -59,5 +59,14 @@
 				Review and accept quote
 			</button>
 		{/if}
+	{:else}
+		<p class={cx('quote.summary', partDefaults.summary)} role="status">
+			{quote.status === 'accepted'
+				? 'Quote accepted.'
+				: `Quote status: ${quote.status.replaceAll('_', ' ')}.`}
+		</p>
+		<a class={cx('quote.link', partDefaults.link)} href="/account">
+			View your account and payment
+		</a>
 	{/if}
 </section>

@@ -91,6 +91,12 @@ client-side behavior. Browser code runs in the storefront page and has that
 page's browser privileges. Treat it as trusted code: validate input, avoid
 exposing secrets, and keep server-only work out of browser bundles.
 
+When rendering Svelte islands separately, give each render a unique `idPrefix`.
+Svelte preserves that namespace during hydration. Reusing a fixed prefix creates
+duplicate form and anchor IDs when two instances appear on one page, causing
+labels or links to target another instance. The maintained build uses the block
+ID when present and a unique render namespace for view props without metadata.
+
 Continue with the [manifest reference](/blocks/authoring/package-manifest/).
 
 ## Maintained composition examples

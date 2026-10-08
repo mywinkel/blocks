@@ -1,5 +1,7 @@
 export function refundStatusMessage(status: unknown) {
 	switch (status) {
+		case 'approval':
+			return 'Refund awaiting review by the business. No refund has been submitted.';
 		case 'pending':
 			return 'Refund pending. Amounts update when each payment provider confirms the refund.';
 		case 'review':
