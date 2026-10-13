@@ -37,6 +37,11 @@ The starter and notes packages are named `@example/starter` and
 catalogue entries. They are not in the CMS default system block set. The CMS
 system set is maintained separately from the optional package catalogue.
 
+For a coordinated SDK release, advance each example's `package.json` and
+`block-package.json` version together, and pin its SDK dependency to that same
+release. The examples are optional catalogue entries and must match the version
+used by the generated release assets.
+
 For an external package, publish its versioned archive and catalogue through
 your chosen release channel. Do not overwrite an archive for an existing
 version: installed releases are pinned by version and digest. Test installation
