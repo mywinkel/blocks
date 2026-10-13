@@ -73,3 +73,5 @@ try {
   await browser.close();
   await new Promise<void>((resolve) => server.close(() => resolve()));
 }
+
+await import("./test-notes-settings");

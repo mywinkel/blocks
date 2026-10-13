@@ -82,7 +82,11 @@ For standard field controls, render the SDK's `Fields.svelte` component:
 The editor runs in a sandboxed frame and communicates changes through the host
 editor protocol. Do not rely on host internals or direct access to the CMS
 document. A custom settings entry must use the same serializable block-change
-protocol.
+protocol. Handle `configure` for the initial block and `update` for replacement
+snapshots, including undo/redo. Replace the current block snapshot and synchronize
+the controls without emitting a `change`; the next user edit must send the latest
+snapshot with its edited values. The `examples/notes/settings.js` entry shows this
+without a framework.
 
 ## Interactive browser code
 
