@@ -1,17 +1,9 @@
-import {
-  mkdtemp,
-  cp,
-  readFile,
-  writeFile,
-  mkdir,
-  rm,
-  readdir,
-} from "node:fs/promises";
-import { tmpdir } from "node:os";
+import { cp, readFile, writeFile, mkdir, rm, readdir } from "node:fs/promises";
 import { resolve, join } from "node:path";
 import { createHash } from "node:crypto";
 import { buildPackages, buildExample, buildStarterExample } from "./build";
 import { packageManifestSchema } from "../packages/sdk/src/manifest";
+import { artifactPath, temporaryDirectory } from "./artifacts";
 const root = resolve(import.meta.dirname, ".."),
   version = JSON.parse(
     await readFile(resolve(root, "packages/sdk/package.json"), "utf8"),
@@ -21,7 +13,7 @@ const root = resolve(import.meta.dirname, ".."),
 await buildPackages();
 await buildExample();
 await buildStarterExample();
-await mkdir(resolve(root, "release"), { recursive: true });
+await mkdir(artifactPath("release"), { recursive: true });
 const packages = [];
 const examples = { "example-notes": "notes", "example-starter": "starter" };
 const lockfiles = new Set([
@@ -37,18 +29,24 @@ for (const directory of [
 ]) {
   const source =
       directory in examples
-        ? resolve(root, "examples", examples[directory as keyof typeof examples])
+        ? resolve(
+            root,
+            "examples",
+            examples[directory as keyof typeof examples],
+          )
         : resolve(root, "packages", directory),
-    temporary = await mkdtemp(join(tmpdir(), "mywinkel-block-")),
+    temporary = temporaryDirectory("release-"),
     stage = join(temporary, "package");
   try {
     await cp(source, stage, {
       recursive: true,
       filter: (path) =>
-        !path.split("/").some(
-          (part) => part === "node_modules" || part === ".git" || lockfiles.has(part),
-        ) &&
-        !/\.(?:test|spec)\.ts$/.test(path),
+        !path
+          .split("/")
+          .some(
+            (part) =>
+              part === "node_modules" || part === ".git" || lockfiles.has(part),
+          ) && !/\.(?:test|spec)\.ts$/.test(path),
     });
     await cp(resolve(root, "LICENSE"), join(stage, "LICENSE"));
     const pkg = JSON.parse(await readFile(join(stage, "package.json"), "utf8"));
@@ -94,7 +92,7 @@ for (const directory of [
         "-" +
         version +
         ".tgz",
-      output = resolve(root, "release", asset);
+      output = artifactPath("release", asset);
     const child = Bun.spawn(
       [
         "tar",
@@ -132,7 +130,7 @@ for (const directory of [
   }
 }
 await writeFile(
-  resolve(root, "release/block-catalogue.json"),
+  artifactPath("release/block-catalogue.json"),
   JSON.stringify({ format: 1, version, packages }, null, 2) + "\n",
 );
 console.log(`Packed ${packages.length} independent packages for ${tag}`);

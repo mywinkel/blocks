@@ -9,3 +9,6 @@ packages/*/dist/
 examples/*/dist/
 examples/*/bun.lock
 examples/*/bun.lockb
+
+# Disposable outputs for standalone checkouts.
+/.tmp/
