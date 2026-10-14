@@ -20,7 +20,7 @@
     "@astrojs/starlight": "0.42.4",
     "@mywinkel/block-sdk": "workspace:*",
     "@playwright/test": "1.60.0",
-    "@types/node": "22.15.3",
+    "@types/node": "24.19.2",
     "@types/sanitize-html": "2.16.1",
     "astro": "7.3.5",
     "esbuild": "0.28.2",
