@@ -18,7 +18,7 @@ const account = new Set([
   "request-status",
   "quote-acceptance",
 ]);
-async function buildSvelteEntries(directory: string) {
+export async function buildSvelteEntries(directory: string) {
   const dist = resolve(directory, "dist");
   await mkdir(dist, { recursive: true });
   for (const kind of ["server", "browser", "settings"] as const) {

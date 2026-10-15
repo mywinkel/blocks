@@ -8,6 +8,8 @@
 	import { addToCart, writeSelection } from '@mywinkel/block-sdk/shared/selection';
 	import { definition } from './definition';
 	import { namedPartDefaults as parts } from './parts';
+	import ItemLink from './ItemLink.svelte';
+	import { itemLink } from './item-link';
 	let { block, data, appearance }: BlockViewProps = $props();
 	const cx = createClasses(() => appearance);
 	const p = $derived(block.props as z.infer<typeof definition.schema>);
@@ -21,6 +23,8 @@
 	let dialog = $state<HTMLDialogElement>();
 	let notice = $state('');
 	let now = $state(0);
+	let pageUrl = $state('');
+	let linkUnavailable = $state(false);
 	const items = $derived(data.catalogue?.items.filter((item) => item.type === p.source) ?? []);
 	const categories = $derived([...new Set(items.map((item) => group(item)).filter(Boolean))]);
 	function group(item: CatalogueItem) {
@@ -57,10 +61,17 @@
 	onMount(() => {
 		hydrated = true;
 		now = Date.now();
+		pageUrl = location.href;
 		const query = new URLSearchParams(location.search);
 		search = query.get('search')?.slice(0, 200) ?? '';
 		const group = query.get('category') ?? '';
 		if (categories.includes(group)) category = group;
+		// Scope a public link to one island; opening details never selects or buys.
+		if (query.get('catalogue') === block.id && query.has('item')) {
+			const linked = filtered.find((item) => item.id === query.get('item'));
+			if (linked) void open(linked);
+			else linkUnavailable = true;
+		}
 	});
 	function choose(item: CatalogueItem, qty = 1) {
 		if (action === 'cart') {
@@ -130,6 +141,9 @@
 	{#if notice}<p role="status" class={cx('catalogue.status', parts['catalogue.status'])}>
 			{notice}{#if action === 'cart'}
 				<a href={p.actionHref}>View bag</a>{/if}
+		</p>{/if}
+	{#if linkUnavailable}<p role="status" class={cx('catalogue.status', parts['catalogue.status'])}>
+			This item is no longer available. Browse the catalogue for another option.
 		</p>{/if}
 	<ul
 		class={`${cx('catalogue.list', parts['catalogue.list'])} ${p.layout === 'list' ? 'grid-cols-1' : columns}`}
@@ -259,6 +273,9 @@
 						</p>{/if}{#if detail.details.duration}<p>
 							{detail.details.duration} minutes
 						</p>{/if}{#if detail.details.dietary}<p>{detail.details.dietary}</p>{/if}
+					{#key detail.id}
+						<ItemLink href={itemLink(pageUrl, block.id, detail.id)} {appearance} />
+					{/key}
 					{#if action === 'cart'}<label class={cx('catalogue.field', parts['catalogue.field'])}
 							>Quantity<input
 								class={cx('catalogue.control', parts['catalogue.control'])}
