@@ -134,3 +134,8 @@ changing that choice keeps the mounted brief and contact draft. Mixed Preorder
 default and legacy first-line fields while adding bounded `items`. The host owns
 atomic pricing, capacity, preparation and payments; do not duplicate these rules
 inside frontend or settings code.
+
+Storefront `Receipt` values may include `paymentProvider` (`paystack`, `peach`,
+`yoco`) and `paymentEnvironment` (`sandbox`, `live`). These optional fields describe
+the original payment intent. A sandbox label must remain visible to shoppers;
+neither a hosted checkout return nor provider selection proves payment success.

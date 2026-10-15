@@ -5,6 +5,7 @@ import assert from "node:assert/strict";
 import { chromium, expect } from "@playwright/test";
 import { buildPackages } from "./build";
 import { verifyBooking } from "./test-booking";
+import { verifyRequestStatus } from "./test-request-status";
 import { verifyQuote } from "./test-quote";
 
 // Test the actual distributed browser/server entries. Closing the drawer must
@@ -194,6 +195,7 @@ try {
   );
   await verifyBooking(browser);
   await verifyQuote(browser);
+  await verifyRequestStatus(browser);
 } finally {
   await browser.close();
   await new Promise<void>((resolve) => server.close(() => resolve()));

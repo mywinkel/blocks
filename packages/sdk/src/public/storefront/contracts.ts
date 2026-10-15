@@ -157,12 +157,15 @@ export type Receipt = {
 	calendarStatus?: string;
 	refundStatus?: string;
 	refundedMinor?: number;
+	paymentProvider?: 'paystack' | 'peach' | 'yoco';
+	paymentEnvironment?: 'sandbox' | 'live';
 	payment:
 		| 'not_required'
 		| 'pending'
 		| 'paid'
 		| 'deposit_paid'
 		| 'refunded'
+		| 'failed'
 		| 'cancelled'
 		| 'review'
 		| 'expired';

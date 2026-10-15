@@ -161,6 +161,7 @@
 		<p class={cx('request.payment', partDefaults.payment)}>
 			Payment: {readable(receipt.payment)}
 		</p>
+		{#if receipt.paymentEnvironment === 'sandbox'}<p class={cx('request.muted', partDefaults.muted)} role="status">Test payment — no real money is collected.</p>{/if}
 		<PaymentHold {receipt} />
 
 		{#if receipt.downloads?.length}
