@@ -26,6 +26,7 @@
     "esbuild": "0.28.2",
     "svelte": "5.57.1",
     "svelte-check": "4.7.6",
+    "tailwindcss": "4.3.3",
     "typescript": "6.0.3",
     "vitest": "4.1.11",
     "zod": "4.6.5"

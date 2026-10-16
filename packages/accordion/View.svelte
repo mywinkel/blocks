@@ -24,7 +24,9 @@
 				<summary class={cx('accordion.trigger', parts['accordion.trigger'])}>
 					{card.title}<span
 						class={cx('accordion.indicator', parts['accordion.indicator'])}
-						aria-hidden="true">+</span
+						aria-hidden="true"
+						><span class="inline-block group-open:rotate-45 motion-reduce:transform-none">+</span
+						></span
 					>
 				</summary>
 				<div class={cx('accordion.body', parts['accordion.body'])}>

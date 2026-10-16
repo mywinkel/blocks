@@ -9,6 +9,7 @@ import { verifyRequestStatus } from "./test-request-status";
 import { verifyQuote } from "./test-quote";
 import { verifyCatalogueLinks } from "./test-catalogue-links";
 import { verifyFormIdentities } from "./test-form-identities";
+import { verifyAccordion } from "./test-accordion";
 
 // Test the actual distributed browser/server entries. Closing the drawer must
 // preserve an uncertain financial operation, rather than creating another one.
@@ -200,6 +201,7 @@ try {
   await verifyRequestStatus(browser);
   await verifyCatalogueLinks(browser);
   await verifyFormIdentities(browser);
+  await verifyAccordion(browser);
 } finally {
   await browser.close();
   await new Promise<void>((resolve) => server.close(() => resolve()));
