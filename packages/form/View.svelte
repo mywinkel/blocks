@@ -30,6 +30,8 @@
 	};
 
 	let { form, revision, preview = false, appearance }: Props = $props();
+	// One published form may appear in several independently rendered islands.
+	const instanceId = $props.id();
 	const cx = createClasses(() => appearance);
 	const floatable = (field: FormField) =>
 		['text', 'textarea', 'email', 'tel', 'number', 'date', 'select'].includes(field.type);
@@ -193,7 +195,7 @@
 	}
 
 	function inputId(field: FormField) {
-		return `mw-form-${form.id}-${field.id}`;
+		return `mw-form-${instanceId}-${form.id}-${field.id}`;
 	}
 
 	function descriptionId(field: FormField) {
