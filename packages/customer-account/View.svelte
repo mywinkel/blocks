@@ -9,6 +9,8 @@
 	import MembershipRenewal from '@mywinkel/block-sdk/shared/MembershipRenewal.svelte';
 	import QuoteReview from '@mywinkel/block-quote-acceptance/Review.svelte';
 	import { accountPartDefaults } from '@mywinkel/block-sdk/shared/account-parts';
+	import { localPartDefaults } from './parts';
+	import { matchesHistory } from './history-search';
 
 	export type CustomerAccountProps = { className?: string; appearance?: AppearanceInput };
 	let { className = '', appearance }: CustomerAccountProps = $props();
@@ -19,6 +21,12 @@
 	let pending = $state(false);
 	let message = $state('');
 	let error = $state('');
+	let historyQuery = $state('');
+	let historySearch = $state<HTMLInputElement>();
+	const searchId = $props.id();
+	const matchingHistory = $derived(
+		account?.history.filter((row) => matchesHistory(row, historyQuery)).length ?? 0
+	);
 	let loadSequence = 0;
 
 	async function load() {
@@ -28,12 +36,16 @@
 		message = '';
 		try {
 			const next = await storefrontClient.customerAccount({}, true);
-			if (sequence === loadSequence) account = next;
+			if (sequence === loadSequence) {
+				if (next.customer.id !== account?.customer.id) historyQuery = '';
+				account = next;
+			}
 		} catch (failure) {
 			if (sequence !== loadSequence) return;
-			if (failure instanceof Error && 'code' in failure && failure.code === 'unauthenticated')
+			if (failure instanceof Error && 'code' in failure && failure.code === 'unauthenticated') {
 				account = undefined;
-			else error = failure instanceof Error ? failure.message : 'Unable to load your account.';
+				historyQuery = '';
+			} else error = failure instanceof Error ? failure.message : 'Unable to load your account.';
 		} finally {
 			if (sequence === loadSequence) loading = false;
 		}
@@ -68,6 +80,7 @@
 		try {
 			await storefrontClient.signOut();
 			account = undefined;
+			historyQuery = '';
 			message = 'You have signed out.';
 		} catch (failure) {
 			error = failure instanceof Error ? failure.message : 'Unable to sign out.';
@@ -238,9 +251,47 @@
 		<section class={cx('account.section', accountPartDefaults.section)}>
 			<h2 class={cx('account.sectionHeading', accountPartDefaults.sectionHeading)}>Your history</h2>
 			{#if account.history.length}
+				<div class={cx('account.historySearch', localPartDefaults.historySearch)}>
+					<label class={cx('account.historySearchField', localPartDefaults.historySearchField)}>
+						<span>Search loaded history</span>
+						<input
+							class={cx('account.historySearchInput', localPartDefaults.historySearchInput)}
+							type="search"
+							bind:this={historySearch}
+							bind:value={historyQuery}
+							aria-describedby={`${searchId}-search-help`}
+						/>
+					</label>
+					{#if historyQuery}
+						<button
+							class={cx('account.historySearchClear', localPartDefaults.historySearchClear)}
+							type="button"
+							onclick={() => {
+								historyQuery = '';
+								historySearch?.focus();
+							}}>Clear history search</button
+						>
+					{/if}
+				</div>
+				<p id={`${searchId}-search-help`} class={cx('account.status', accountPartDefaults.status)}>
+					Search by name, type, status or reference. Only loaded history is searched.{account.nextHistoryCursor
+						? ' Load more history to include older entries.'
+						: ''}
+				</p>
+				<p class={cx('account.status', accountPartDefaults.status)} role="status">
+					{matchingHistory} of {account.history.length} loaded entries match.
+					{matchingHistory === 0 ? ' Clear or change your search.' : ''}
+				</p>
 				<ul class={cx('account.historyList', accountPartDefaults.historyList)}>
 					{#each account.history as row (row.id)}
-						<li class={cx('account.historyItem', accountPartDefaults.historyItem)}>
+						<!-- Keep booking/quote drafts mounted when searching. Remove display
+						     classes from hidden rows so appearance cannot override native hiding. -->
+						<li
+							hidden={!matchesHistory(row, historyQuery)}
+							class={matchesHistory(row, historyQuery)
+								? cx('account.historyItem', accountPartDefaults.historyItem)
+								: undefined}
+						>
 							<strong class={cx('account.historyName', accountPartDefaults.historyName)}
 								>{row.name}</strong
 							>

@@ -18,9 +18,7 @@
             "maxLength": 500
           }
         },
-        "required": [
-          "heading"
-        ],
+        "required": ["heading"],
         "additionalProperties": false
       },
       "fields": [
@@ -156,7 +154,11 @@
         "account.membershipConsent": "flex items-start gap-3 text-sm leading-6",
         "account.membershipCheckbox": "mt-1 size-4 shrink-0 accent-primary",
         "account.membershipButton": "inline-flex min-h-11 w-fit items-center justify-center rounded-md bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground outline-none transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-ring/60 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-60",
-        "account.membershipLink": "inline-flex min-h-11 w-fit items-center justify-center rounded-md bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground outline-none transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-ring/60"
+        "account.membershipLink": "inline-flex min-h-11 w-fit items-center justify-center rounded-md bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground outline-none transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-ring/60",
+        "account.historySearch": "flex flex-col items-start gap-3 sm:flex-row sm:items-end",
+        "account.historySearchField": "grid w-full min-w-0 gap-2 text-sm sm:max-w-md",
+        "account.historySearchInput": "w-full min-h-11 min-w-0 rounded-md border border-border bg-background px-3 py-2.5 font-[inherit] text-foreground caret-primary outline-none focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30",
+        "account.historySearchClear": "inline-flex min-h-11 shrink-0 items-center justify-center rounded-md border border-border px-4 py-2.5 text-sm font-semibold text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
       },
       "interactive": true,
       "children": false,
