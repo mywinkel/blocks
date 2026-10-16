@@ -10,6 +10,7 @@ import { verifyQuote } from "./test-quote";
 import { verifyCatalogueLinks } from "./test-catalogue-links";
 import { verifyFormIdentities } from "./test-form-identities";
 import { verifyAccordion } from "./test-accordion";
+import { verifyCustomerHistory } from "./test-customer-history";
 
 // Test the actual distributed browser/server entries. Closing the drawer must
 // preserve an uncertain financial operation, rather than creating another one.
@@ -200,6 +201,7 @@ try {
   await verifyQuote(browser);
   await verifyRequestStatus(browser);
   await verifyCatalogueLinks(browser);
+  await verifyCustomerHistory(browser);
   await verifyFormIdentities(browser);
   await verifyAccordion(browser);
 } finally {
