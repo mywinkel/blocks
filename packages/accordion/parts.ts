@@ -5,8 +5,9 @@ export const namedPartDefaults = {
   "accordion.item": "group min-w-0",
   "accordion.trigger":
     "flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-left font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring [&::-webkit-details-marker]:hidden",
+  // Keep the rotating glyph inside a stationary box at the edge of a page.
   "accordion.indicator":
-    "shrink-0 text-xl group-open:rotate-45 motion-reduce:transform-none",
+    "inline-flex size-8 shrink-0 items-center justify-center overflow-clip text-xl",
   "accordion.body":
     "max-w-prose pb-6 leading-relaxed whitespace-pre-line text-muted-foreground",
   "accordion.image": "mb-4 h-auto max-w-full",
