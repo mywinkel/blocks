@@ -137,6 +137,10 @@ export async function verifyCustomerHistory(browser: Browser) {
       let appointmentStatus = "confirmed";
       let calendarStatus = "";
       let appointmentStart = appointment.start;
+      let classMode = false;
+      let enrolmentStatus = "booked";
+      let classStatus: string | undefined = "scheduled";
+      let classEnd = "2027-01-10T09:00:00+02:00";
       page.on("pageerror", (error) => errors.push(error.message));
       page.on("request", (request) => {
         if (request.method() !== "GET") mutations.push(request.url());
@@ -169,15 +173,31 @@ export async function verifyCustomerHistory(browser: Browser) {
           await route.fulfill({
             json: {
               ...initial,
-              history: [
-                {
-                  ...appointment,
-                  status: appointmentStatus,
-                  start: appointmentStart,
-                  booking: { ...appointment.booking, calendarStatus },
-                },
-                ...initial.history.slice(1),
-              ],
+              history: classMode
+                ? [
+                    {
+                      ...appointment,
+                      id: "enrolment-1",
+                      type: "enrolments",
+                      name: "Morning strength class",
+                      status: enrolmentStatus,
+                      end: classEnd,
+                      booking: {
+                        ...appointment.booking,
+                        reschedule: false,
+                        classStatus,
+                      },
+                    },
+                  ]
+                : [
+                    {
+                      ...appointment,
+                      status: appointmentStatus,
+                      start: appointmentStart,
+                      booking: { ...appointment.booking, calendarStatus },
+                    },
+                    ...initial.history.slice(1),
+                  ],
               customer: { ...initial.customer, id: identity },
             },
           });
@@ -410,9 +430,87 @@ export async function verifyCustomerHistory(browser: Browser) {
           .getByRole("button", { name: "Sign out", exact: true })
           .click();
         await expect(query).toHaveCount(0);
+        const beforeClassMutations = [...mutations];
+        classMode = true;
+        await page.reload();
+        await expect(calendar).toHaveCount(1);
+        await calendar.focus();
+        const classDownload = page.waitForEvent("download");
+        await page.keyboard.press("Enter");
+        const classFile = await classDownload;
+        expect(classFile.suggestedFilename()).toBe("class.ics");
+        const classContent = await readFile((await classFile.path())!, "utf8");
+        expect(classContent).toContain("SUMMARY:Morning strength class\r\n");
+        expect(classContent).toContain("DTSTART:20270110T060000Z\r\n");
+        expect(classContent).toContain("DTEND:20270110T070000Z\r\n");
+        expect(classContent).not.toContain(initial.customer.email);
+        await page
+          .getByRole("button", { name: "Cancel booking", exact: true })
+          .click();
+        const classReason = page.getByRole("textbox", {
+          name: "Reason",
+          exact: true,
+        });
+        await classReason.fill("Keep class cancellation draft");
+        const draftClassDownload = page.waitForEvent("download");
+        await calendar.click();
+        await draftClassDownload;
+        await expect(classReason).toHaveValue("Keep class cancellation draft");
+        for (const nextStatus of ["waitlisted", "cancelled", "attended"]) {
+          enrolmentStatus = nextStatus;
+          await page
+            .getByRole("button", { name: "Refresh account", exact: true })
+            .click();
+          await expect(calendar).toHaveCount(0);
+        }
+        enrolmentStatus = "booked";
+        for (const nextStatus of [undefined, "", "cancelled", "completed"]) {
+          classStatus = nextStatus;
+          await page
+            .getByRole("button", { name: "Refresh account", exact: true })
+            .click();
+          await expect(calendar).toHaveCount(0);
+        }
+        classStatus = "scheduled";
+        classEnd = "";
+        await page
+          .getByRole("button", { name: "Refresh account", exact: true })
+          .click();
+        await expect(calendar).toHaveCount(0);
+        classEnd = "2027-01-10T09:30:00+02:00";
+        await page
+          .getByRole("button", { name: "Refresh account", exact: true })
+          .click();
+        await expect(calendar).toHaveCount(1);
+        const updatedClassDownload = page.waitForEvent("download");
+        await calendar.click();
+        const updatedClassFile = await updatedClassDownload;
+        expect(
+          await readFile((await updatedClassFile.path())!, "utf8"),
+        ).toContain("DTEND:20270110T073000Z\r\n");
+        expect(mutations).toEqual(beforeClassMutations);
+        expect(
+          await page.evaluate(
+            () => document.documentElement.scrollWidth <= innerWidth,
+          ),
+        ).toBe(true);
+        expect(
+          await calendar.evaluate(
+            (element) => element.getBoundingClientRect().height,
+          ),
+        ).toBeGreaterThanOrEqual(44);
+        await page.screenshot({
+          path: `${output}/class-calendar-${width}.png`,
+          fullPage: true,
+        });
+        authenticated = false;
+        await page
+          .getByRole("button", { name: "Refresh account", exact: true })
+          .click();
+        await expect(calendar).toHaveCount(0);
         expect(errors).toEqual([]);
         console.log(
-          `${width}px: calendar download bytes, failure/retry, keyboard, refreshed eligibility/time, retained booking draft; history search, pagination, identity/expiry/sign-out and styled layout passed.`,
+          `${width}px: appointment/class calendar bytes, keyboard, refreshed class state/time, older host guards, retained drafts; failure/retry, history search, pagination, identity/expiry/sign-out and styled layout passed.`,
         );
       } finally {
         await page.close();

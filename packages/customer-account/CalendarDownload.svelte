@@ -2,7 +2,7 @@
 	import type { CustomerAccount } from '@mywinkel/block-sdk/public/storefront/customer-account';
 	import type { AppearanceInput } from '@mywinkel/block-sdk/appearance';
 	import { createClasses } from '@mywinkel/block-sdk/appearance.svelte';
-	import { appointmentCalendar, canDownloadAppointment } from './appointment-calendar';
+	import { bookingCalendar, canDownloadBooking } from './booking-calendar';
 	import { localPartDefaults as parts } from './parts';
 	let {
 		record,
@@ -19,12 +19,12 @@
 	function download() {
 		error = '';
 		try {
-			const content = appointmentCalendar(record, location.origin);
+			const content = bookingCalendar(record, location.origin);
 			if (!content) return;
 			const url = URL.createObjectURL(new Blob([content], { type: 'text/calendar;charset=utf-8' }));
 			const link = document.createElement('a');
 			link.href = url;
-			link.download = 'appointment.ics';
+			link.download = record.type === 'enrolments' ? 'class.ics' : 'appointment.ics';
 			document.body.append(link);
 			try {
 				link.click();
@@ -39,7 +39,7 @@
 	}
 </script>
 
-{#if canDownloadAppointment(record)}
+{#if canDownloadBooking(record)}
 	<div class={cx('account.calendar', parts.calendar)}>
 		<button
 			type="button"

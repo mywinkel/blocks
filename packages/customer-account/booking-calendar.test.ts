@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { CustomerAccount } from '@mywinkel/block-sdk/public/storefront/customer-account';
-import { appointmentCalendar } from './appointment-calendar';
+import { bookingCalendar } from './booking-calendar';
 
 const appointment: CustomerAccount['history'][number] = {
 	id: 'appointment-1',
@@ -26,11 +26,38 @@ const appointment: CustomerAccount['history'][number] = {
 	}
 };
 const now = new Date('2026-10-17T00:00:00Z');
+const enrolment: typeof appointment = {
+	...appointment,
+	id: 'enrolment-1',
+	type: 'enrolments',
+	name: 'Morning strength class',
+	status: 'booked',
+	booking: { ...appointment.booking!, classStatus: 'scheduled' }
+};
 const unfold = (value: string) => value.replace(/\r\n /g, '');
 
-describe('appointment calendar handoff', () => {
+describe('booking calendar handoff', () => {
+	it('transfers a booked scheduled class while withholding unavailable and older-host context', () => {
+		const file = unfold(bookingCalendar(enrolment, 'https://gym.example.test', now)!);
+		expect(file).toContain('SUMMARY:Morning strength class\r\n');
+		expect(file).toContain('DTSTART:20270110T060000Z\r\n');
+		expect(file).toContain('DTEND:20270110T063000Z\r\n');
+		expect(file).toContain('/enrolment-1@mywinkel\r\n');
+		for (const status of ['waitlisted', 'cancelled', 'attended', 'cancelling'])
+			expect(bookingCalendar({ ...enrolment, status }, 'https://gym.example.test', now)).toBeNull();
+		for (const classStatus of [undefined, '', 'cancelled', 'completed', 'unknown'])
+			expect(
+				bookingCalendar(
+					{ ...enrolment, booking: { ...enrolment.booking!, classStatus } },
+					'https://gym.example.test',
+					now
+				)
+			).toBeNull();
+		for (const end of ['', 'invalid', enrolment.start])
+			expect(bookingCalendar({ ...enrolment, end }, 'https://gym.example.test', now)).toBeNull();
+	});
 	it('transfers exact instants with a clean account URL and stable tenant-scoped identity', () => {
-		const file = appointmentCalendar(
+		const file = bookingCalendar(
 			appointment,
 			'https://user:secret@salon.example.test/anything?token=private#secret',
 			now
@@ -46,7 +73,7 @@ describe('appointment calendar handoff', () => {
 		expect(file).not.toMatch(/secret|token|private#|user|payment|ATTENDEE|ORGANIZER|METHOD:/);
 		const uid = lines.find((line) => line.startsWith('UID:'));
 		const updated = unfold(
-			appointmentCalendar(
+			bookingCalendar(
 				{
 					...appointment,
 					start: '2027-01-11T08:00:00+02:00',
@@ -59,9 +86,9 @@ describe('appointment calendar handoff', () => {
 		);
 		expect(updated.split('\r\n')).toContain(uid);
 		expect(updated).toContain('DTSTART:20270111T060000Z');
-		expect(
-			unfold(appointmentCalendar(appointment, 'https://other.example.test', now)!)
-		).not.toContain(uid);
+		expect(unfold(bookingCalendar(appointment, 'https://other.example.test', now)!)).not.toContain(
+			uid
+		);
 	});
 
 	it('withholds tentative, uncertain, cancelled, other-type and invalid-time snapshots', () => {
@@ -86,13 +113,13 @@ describe('appointment calendar handoff', () => {
 		];
 		for (const change of cases) {
 			expect(
-				appointmentCalendar({ ...appointment, ...change }, 'https://salon.example.test', now),
+				bookingCalendar({ ...appointment, ...change }, 'https://salon.example.test', now),
 				JSON.stringify(change)
 			).toBeNull();
 		}
 		for (const calendarStatus of ['', 'not_required', 'confirmed']) {
 			expect(
-				appointmentCalendar(
+				bookingCalendar(
 					{ ...appointment, booking: { ...appointment.booking!, calendarStatus } },
 					'https://salon.example.test',
 					now
@@ -103,7 +130,7 @@ describe('appointment calendar handoff', () => {
 
 	it('escapes untrusted text, folds UTF-8 without splitting characters and uses CRLF', () => {
 		const name = 'Café 😀'.repeat(30) + '\\; ,\r\nBEGIN:VEVENT\rATTENDEE:injected\nEnd\u0000';
-		const file = appointmentCalendar(
+		const file = bookingCalendar(
 			{ ...appointment, name, id: 'id\r\nEND:VEVENT' },
 			'https://salon.example.test',
 			now
