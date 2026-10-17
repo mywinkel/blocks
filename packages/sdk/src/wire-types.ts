@@ -13,6 +13,7 @@ export type CustomerAccount = {
           cancel: boolean;
           reschedule: boolean;
           noticeHours: number;
+          classStatus?: string;
         }
       | undefined;
     id: string;
