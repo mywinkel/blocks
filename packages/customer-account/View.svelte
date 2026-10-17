@@ -11,6 +11,7 @@
 	import { accountPartDefaults } from '@mywinkel/block-sdk/shared/account-parts';
 	import { localPartDefaults } from './parts';
 	import { matchesHistory } from './history-search';
+	import CalendarDownload from './CalendarDownload.svelte';
 
 	export type CustomerAccountProps = { className?: string; appearance?: AppearanceInput };
 	let { className = '', appearance }: CustomerAccountProps = $props();
@@ -306,6 +307,7 @@
 									{new Date(row.start).toLocaleString('en-ZA', { timeZone: 'Africa/Johannesburg' })}
 								</p>
 							{/if}
+							<CalendarDownload record={row} disabled={pending || loading} {appearance} />
 							<div class={cx('account.booking', accountPartDefaults.booking)}>
 								<BookingManagement record={row} disabled={pending} onSubmit={mutate} />
 							</div>

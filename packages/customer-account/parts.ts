@@ -23,6 +23,11 @@ const localPartDefaults = {
 	historyName: 'font-semibold',
 	historyMeta: 'text-sm leading-6 text-muted-foreground',
 	historyStart: 'text-sm leading-6',
+	calendar: 'grid justify-items-start gap-2',
+	calendarDownload:
+		'inline-flex min-h-11 items-center justify-center rounded-md border border-border px-4 py-2.5 text-sm font-semibold text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring/60 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-60',
+	calendarHelp: 'max-w-prose text-sm leading-6 text-muted-foreground',
+	calendarError: 'text-sm leading-6 text-destructive',
 	historySearch: 'flex flex-col items-start gap-3 sm:flex-row sm:items-end',
 	historySearchField: 'grid w-full min-w-0 gap-2 text-sm sm:max-w-md',
 	historySearchInput:

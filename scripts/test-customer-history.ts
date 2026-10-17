@@ -134,6 +134,9 @@ export async function verifyCustomerHistory(browser: Browser) {
       let olderAttempts = 0;
       let identity = "customer-a";
       let authenticated = true;
+      let appointmentStatus = "confirmed";
+      let calendarStatus = "";
+      let appointmentStart = appointment.start;
       page.on("pageerror", (error) => errors.push(error.message));
       page.on("request", (request) => {
         if (request.method() !== "GET") mutations.push(request.url());
@@ -166,6 +169,15 @@ export async function verifyCustomerHistory(browser: Browser) {
           await route.fulfill({
             json: {
               ...initial,
+              history: [
+                {
+                  ...appointment,
+                  status: appointmentStatus,
+                  start: appointmentStart,
+                  booking: { ...appointment.booking, calendarStatus },
+                },
+                ...initial.history.slice(1),
+              ],
               customer: { ...initial.customer, id: identity },
             },
           });
@@ -184,12 +196,57 @@ export async function verifyCustomerHistory(browser: Browser) {
           .filter({ hasText: /loaded entries match/ });
         const visibleRows = page.locator("#account li:visible");
         await expect(visibleRows).toHaveCount(100);
+        const calendar = page.getByRole("button", {
+          name: "Download calendar file",
+          exact: true,
+        });
+        await expect(calendar).toHaveCount(1);
+        await expect(
+          page.getByText("Import this file into your calendar.", {
+            exact: false,
+          }),
+        ).toBeVisible();
+        // A blocked local file preparation leaves a recoverable control.
+        await page.evaluate(() => {
+          const create = URL.createObjectURL.bind(URL);
+          let fail = true;
+          URL.createObjectURL = (blob) => {
+            if (fail) {
+              fail = false;
+              throw new Error("Synthetic local download failure");
+            }
+            return create(blob);
+          };
+        });
+        await calendar.click();
+        await expect(page.getByRole("alert")).toContainText(
+          "Try downloading again",
+        );
+        await calendar.focus();
+        const firstDownload = page.waitForEvent("download");
+        await page.keyboard.press("Enter");
+        const file = await firstDownload;
+        expect(file.suggestedFilename()).toBe("appointment.ics");
+        const content = await readFile((await file.path())!, "utf8");
+        expect(content).toContain("DTSTART:20270110T060000Z\r\n");
+        expect(content).toContain("DTEND:20270110T063000Z\r\n");
+        expect(content).toContain(`URL:${origin}/account\r\n`);
+        expect(content).not.toContain(initial.customer.email);
+        expect(content).not.toContain("customer-a");
+        await expect(page.getByRole("alert")).toHaveCount(0);
+        expect(mutations).toEqual([]);
         await page
           .getByRole("button", { name: "Cancel booking", exact: true })
           .click();
         await page
           .getByRole("textbox", { name: "Reason", exact: true })
           .fill("Keep this unsaved reason");
+        const draftDownload = page.waitForEvent("download");
+        await calendar.click();
+        await draftDownload;
+        await expect(
+          page.getByRole("textbox", { name: "Reason", exact: true }),
+        ).toHaveValue("Keep this unsaved reason");
         const originalReason = await page
           .getByRole("textbox", { name: "Reason", exact: true })
           .elementHandle();
@@ -256,6 +313,54 @@ export async function verifyCustomerHistory(browser: Browser) {
           .getByRole("button", { name: "Refresh account", exact: true })
           .click();
         await expect(query).toHaveValue("salon");
+        for (const [status, outcome] of [
+          ["requested", ""],
+          ["cancelled", "confirmed"],
+          ["confirmed", "pending"],
+          ["confirmed", "failed"],
+        ]) {
+          appointmentStatus = status;
+          calendarStatus = outcome;
+          await page
+            .getByRole("button", { name: "Refresh account", exact: true })
+            .click();
+          await expect(calendar).toHaveCount(0);
+        }
+        appointmentStatus = "confirmed";
+        calendarStatus = "confirmed";
+        appointmentStart = "invalid";
+        await page
+          .getByRole("button", { name: "Refresh account", exact: true })
+          .click();
+        await expect(calendar).toHaveCount(0);
+        appointmentStart = "2027-01-10T08:15:00+02:00";
+        await page
+          .getByRole("button", { name: "Refresh account", exact: true })
+          .click();
+        await expect(calendar).toHaveCount(1);
+        await calendar.focus();
+        expect(
+          await calendar.evaluate(
+            (element) => element.getBoundingClientRect().height,
+          ),
+        ).toBeGreaterThanOrEqual(44);
+        const changedDownload = page.waitForEvent("download");
+        await page.keyboard.press("Enter");
+        const changedFile = await changedDownload;
+        expect(await readFile((await changedFile.path())!, "utf8")).toContain(
+          "DTSTART:20270110T061500Z\r\n",
+        );
+        expect(
+          await page.evaluate(
+            () => document.documentElement.scrollWidth <= innerWidth,
+          ),
+        ).toBe(true);
+        const calendarOutput = artifactPath("verification", "customer-history");
+        await mkdir(calendarOutput, { recursive: true });
+        await page.screenshot({
+          path: `${calendarOutput}/calendar-${width}.png`,
+          fullPage: false,
+        });
         identity = "customer-b";
         await page
           .getByRole("button", { name: "Refresh account", exact: true })
@@ -307,7 +412,7 @@ export async function verifyCustomerHistory(browser: Browser) {
         await expect(query).toHaveCount(0);
         expect(errors).toEqual([]);
         console.log(
-          `${width}px: 100 loaded rows → 1 result; explicit older-page retry, private query, request link, retained draft, keyboard clear, identity/expiry/sign-out and styled layout passed.`,
+          `${width}px: calendar download bytes, failure/retry, keyboard, refreshed eligibility/time, retained booking draft; history search, pagination, identity/expiry/sign-out and styled layout passed.`,
         );
       } finally {
         await page.close();
