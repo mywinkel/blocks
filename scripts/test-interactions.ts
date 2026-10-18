@@ -11,6 +11,7 @@ import { verifyCatalogueLinks } from "./test-catalogue-links";
 import { verifyFormIdentities } from "./test-form-identities";
 import { verifyAccordion } from "./test-accordion";
 import { verifyCustomerHistory } from "./test-customer-history";
+import { verifyPreorderCutoff } from "./test-preorder-cutoff";
 
 // Test the actual distributed browser/server entries. Closing the drawer must
 // preserve an uncertain financial operation, rather than creating another one.
@@ -204,6 +205,7 @@ try {
   await verifyCustomerHistory(browser);
   await verifyFormIdentities(browser);
   await verifyAccordion(browser);
+  await verifyPreorderCutoff(browser);
 } finally {
   await browser.close();
   await new Promise<void>((resolve) => server.close(() => resolve()));
