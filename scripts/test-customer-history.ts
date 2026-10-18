@@ -9,6 +9,7 @@ import type { CustomerAccount } from "../packages/sdk/src/wire-types";
 import { definition } from "../packages/customer-account/definition";
 import { buildSvelteEntries } from "./build";
 import { artifactPath } from "./artifacts";
+import { verifyRentalSchedule } from "./test-rental-schedule";
 
 const require = createRequire(import.meta.url);
 const directory = new URL("../packages/customer-account/", import.meta.url);
@@ -516,6 +517,7 @@ export async function verifyCustomerHistory(browser: Browser) {
         await page.close();
       }
     }
+    await verifyRentalSchedule(browser, origin);
   } finally {
     await new Promise<void>((done) => server.close(() => done()));
   }

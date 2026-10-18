@@ -23,6 +23,11 @@ const localPartDefaults = {
 	historyName: 'font-semibold',
 	historyMeta: 'text-sm leading-6 text-muted-foreground',
 	historyStart: 'text-sm leading-6',
+	rentalSchedule: 'grid max-w-2xl gap-3 sm:grid-cols-2 sm:gap-x-8',
+	rentalScheduleItem: 'grid gap-1',
+	rentalScheduleLabel: 'text-sm font-semibold leading-6',
+	rentalScheduleTime: 'text-sm leading-6',
+	rentalScheduleHelp: 'max-w-prose text-sm leading-6 text-muted-foreground',
 	calendar: 'grid justify-items-start gap-2',
 	calendarDownload:
 		'inline-flex min-h-11 items-center justify-center rounded-md border border-border px-4 py-2.5 text-sm font-semibold text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring/60 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-60',
