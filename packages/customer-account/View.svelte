@@ -12,6 +12,7 @@
 	import { localPartDefaults } from './parts';
 	import { matchesHistory } from './history-search';
 	import CalendarDownload from './CalendarDownload.svelte';
+	import RentalSchedule from './RentalSchedule.svelte';
 
 	export type CustomerAccountProps = { className?: string; appearance?: AppearanceInput };
 	let { className = '', appearance }: CustomerAccountProps = $props();
@@ -302,7 +303,9 @@
 									' '
 								)}{row.amountMinor > 0 ? ` · ${money(row.amountMinor)}` : ''}
 							</p>
-							{#if row.start}
+							{#if row.type === 'rentals'}
+								<RentalSchedule record={row} {appearance} />
+							{:else if row.start}
 								<p class={cx('account.historyStart', accountPartDefaults.historyStart)}>
 									{new Date(row.start).toLocaleString('en-ZA', { timeZone: 'Africa/Johannesburg' })}
 								</p>
