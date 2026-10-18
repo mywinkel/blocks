@@ -50,14 +50,17 @@
 			0
 		)
 	);
+	// Zero is an explicit same-day cutoff; only an absent value uses the fallback.
 	const cutoff = $derived(
-		Math.max(0, ...selected.map((menu) => Number(menu.details.cutoffHours ?? 0)))
+		selected.length
+			? Math.max(...selected.map((menu) => Number(menu.details.cutoffHours ?? 12)))
+			: 12
 	);
 	const orderTotal = $derived(
 		total + (method === 'local-delivery' ? (data?.delivery.feeMinor ?? 0) : 0)
 	);
 	const earliest = $derived(
-		clock ? new Date(clock + ((cutoff || 12) + 2) * 3600000).toISOString().slice(0, 16) : undefined
+		clock ? new Date(clock + (cutoff + 2) * 3600000).toISOString().slice(0, 16) : undefined
 	);
 	function add(id: string) {
 		const quantity = quantities[id] ?? 1;
@@ -228,8 +231,8 @@
 		>
 		<DeliveryFields catalogue={data} bind:method />
 		<p class={cx('preorder.note', parts['preorder.note'])}>
-			Order at least {cutoff || 12} hours ahead. Times are in South African Standard Time. Availability,
-			extras and delivery are checked before your order is accepted.
+			Order at least {cutoff} hours ahead. Times are in South African Standard Time. Availability, extras
+			and delivery are checked before your order is accepted.
 		</p>
 		{#snippet summary()}<p>
 				{method === 'local-delivery' ? 'Including delivery' : 'Collection total'}
