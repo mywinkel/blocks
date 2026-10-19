@@ -1,7 +1,7 @@
 {
   "format": 1,
   "name": "@mywinkel/block-form",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "sdkVersion": "0.1",
   "blocks": [
     {
