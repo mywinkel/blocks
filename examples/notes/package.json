@@ -1,12 +1,12 @@
 {
   "name": "@example/notes",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "type": "module",
   "scripts": {
     "build": "bun build.ts"
   },
   "dependencies": {
-    "@mywinkel/block-sdk": "https://github.com/mywinkel/blocks/releases/download/v0.1.6/block-sdk-0.1.6.tgz"
+    "@mywinkel/block-sdk": "https://github.com/mywinkel/blocks/releases/download/v0.1.7/block-sdk-0.1.7.tgz"
   },
   "devDependencies": {
     "esbuild": "0.28.2"
