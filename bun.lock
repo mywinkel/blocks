@@ -27,7 +27,7 @@
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.6",
+        "@mywinkel/block-sdk": "0.1.7",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -42,7 +42,7 @@
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.6",
+        "@mywinkel/block-sdk": "0.1.7",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -57,7 +57,7 @@
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.6",
+        "@mywinkel/block-sdk": "0.1.7",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -72,7 +72,7 @@
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.6",
+        "@mywinkel/block-sdk": "0.1.7",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -87,7 +87,7 @@
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.6",
+        "@mywinkel/block-sdk": "0.1.7",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -102,7 +102,7 @@
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.6",
+        "@mywinkel/block-sdk": "0.1.7",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -117,7 +117,7 @@
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.6",
+        "@mywinkel/block-sdk": "0.1.7",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -132,8 +132,8 @@
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-quote-acceptance": "0.1.6",
-        "@mywinkel/block-sdk": "0.1.6",
+        "@mywinkel/block-quote-acceptance": "0.1.7",
+        "@mywinkel/block-sdk": "0.1.7",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -149,7 +149,7 @@
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.6",
+        "@mywinkel/block-sdk": "0.1.7",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -165,7 +165,7 @@
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.6",
+        "@mywinkel/block-sdk": "0.1.7",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -180,7 +180,7 @@
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.6",
+        "@mywinkel/block-sdk": "0.1.7",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -195,7 +195,7 @@
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.6",
+        "@mywinkel/block-sdk": "0.1.7",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -210,7 +210,7 @@
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.6",
+        "@mywinkel/block-sdk": "0.1.7",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -225,7 +225,7 @@
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.6",
+        "@mywinkel/block-sdk": "0.1.7",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -240,7 +240,7 @@
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.6",
+        "@mywinkel/block-sdk": "0.1.7",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -255,7 +255,7 @@
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.6",
+        "@mywinkel/block-sdk": "0.1.7",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -271,7 +271,7 @@
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.6",
+        "@mywinkel/block-sdk": "0.1.7",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -286,7 +286,7 @@
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.6",
+        "@mywinkel/block-sdk": "0.1.7",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -301,7 +301,7 @@
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.6",
+        "@mywinkel/block-sdk": "0.1.7",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -316,7 +316,7 @@
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.6",
+        "@mywinkel/block-sdk": "0.1.7",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -331,7 +331,7 @@
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.6",
+        "@mywinkel/block-sdk": "0.1.7",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -346,7 +346,7 @@
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.6",
+        "@mywinkel/block-sdk": "0.1.7",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -361,7 +361,7 @@
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.6",
+        "@mywinkel/block-sdk": "0.1.7",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -389,7 +389,7 @@
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.6",
+        "@mywinkel/block-sdk": "0.1.7",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
@@ -404,7 +404,7 @@
         "zod": "4.6.5",
       },
       "peerDependencies": {
-        "@mywinkel/block-sdk": "0.1.6",
+        "@mywinkel/block-sdk": "0.1.7",
         "astro": "^7.3.1",
         "svelte": "^5.56.1",
       },
